@@ -8,11 +8,6 @@ namespace HCoroutines {
         public static CoroutineManager Instance { get; private set; }
         public float DeltaTime { get; set; }
 
-        // TODO: Maybe implement as sparse set
-
-        // TODO: Copy the HCoroutineNode code into CoroutineBase, and delete
-        // the HCoroutineNode class that is no longer needed.
-
         private bool isIteratingActiveCoroutines = false;
         private HashSet<CoroutineBase> activeCoroutines = new HashSet<CoroutineBase>();
         private HashSet<CoroutineBase> coroutinesToDeactivate = new HashSet<CoroutineBase>();
