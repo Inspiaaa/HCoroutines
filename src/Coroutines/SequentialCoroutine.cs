@@ -1,0 +1,36 @@
+using Godot;
+using System;
+using System.Collections;
+
+namespace HCoroutines {
+    /// <summary>
+    /// Runs multiple coroutines one after another. Waits until the first
+    /// one has finished before starting the second one, ...
+    /// </summary>
+    public class SequentialCoroutine : CoroutineBase {
+        private CoroutineBase[] coroutines;
+        private int idx = 0;
+
+        public SequentialCoroutine(params CoroutineBase[] coroutines) {
+            this.coroutines = coroutines;
+        }
+
+        public override void OnEnter() {
+            if (coroutines.Length > 0) {
+                StartCoroutine(coroutines[0]);
+            }
+        }
+
+        public override void OnChildStop(CoroutineBase child) {
+            base.OnChildStop(child);
+
+            idx += 1;
+            if (idx < coroutines.Length) {
+                StartCoroutine(coroutines[idx]);
+            }
+            else {
+                Kill();
+            }
+        }
+    }
+}
