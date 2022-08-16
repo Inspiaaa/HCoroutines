@@ -11,10 +11,14 @@ namespace HCoroutines {
     /// IEnumerator.
     /// </summary>
     public class Coroutine : CoroutineBase {
-        public IEnumerator routine;
+        private IEnumerator routine;
 
-        public Coroutine(IEnumerator routine = null) {
+        public Coroutine(IEnumerator routine) {
             this.routine = routine;
+        }
+
+        public Coroutine(Func<Coroutine, IEnumerator> creator) {
+            this.routine = creator(this);
         }
 
         public override void OnEnter()

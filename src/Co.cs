@@ -23,21 +23,17 @@ namespace HCoroutines {
         public static void Run(CoroutineBase coroutine)
             => CoroutineManager.Instance.StartCoroutine(coroutine);
 
-        public static Coroutine Run(IEnumerator coroutine) {
+        public static Coroutine Run(IEnumerator coroutine){
             Coroutine co = new Coroutine(coroutine);
             CoroutineManager.Instance.StartCoroutine(co);
             return co;
         }
 
-        public static Coroutine Run(Func<IEnumerator> creator) {
-            Coroutine co = new Coroutine(creator());
-            CoroutineManager.Instance.StartCoroutine(co);
-            return co;
-        }
+        public static Coroutine Run(Func<IEnumerator> creator)
+            => Run(creator());
 
         public static Coroutine Run(Func<Coroutine, IEnumerator> creator) {
-            Coroutine coroutine = new Coroutine();
-            coroutine.routine = creator(coroutine);
+            Coroutine coroutine = new Coroutine(creator);
             CoroutineManager.Instance.StartCoroutine(coroutine);
             return coroutine;
         }
@@ -45,6 +41,9 @@ namespace HCoroutines {
 
         public static Coroutine Coroutine(IEnumerator enumerator)
             => new Coroutine(enumerator);
+
+        public static Coroutine Coroutine(Func<Coroutine, IEnumerator> creator)
+            => new Coroutine(creator);
 
 
         public static ParallelCoroutine Parallel(params IEnumerator[] enumerators)
