@@ -4,12 +4,20 @@ using System;
 namespace HCoroutines {
     /// <summary>
     /// Base class of all coroutines that allows for pausing / resuming / killing / ... the coroutine.
+    /// It is also responsible for managing the hierarchical structure and organisation
+    /// of coroutine nodes.
+    /// The coroutines themselves act like a doubly linked list, so that
+    /// the list of children can be efficiently managed and even modified during iteration.
     /// </summary>
-    public class CoroutineBase : HCoroutineNode, ICoroutineStopListener {
+    public class CoroutineBase : ICoroutineStopListener {
         public CoroutineManager manager;
+        public ICoroutineStopListener stopListener;
+
+        protected CoroutineBase firstChild, lastChild;
+        protected CoroutineBase previousSibling, nextSibling;
+
         public bool isAlive = true;
         public bool isPlaying = false;
-        public ICoroutineStopListener stopListener;
 
         public void StartCoroutine(CoroutineBase coroutine) {
             coroutine.stopListener = this;
@@ -85,6 +93,42 @@ namespace HCoroutines {
             }
 
             stopListener?.OnChildStop(this);
+        }
+
+        /// <summary>
+        /// Adds a coroutine as a child.
+        /// </summary>
+        protected void AddChild(CoroutineBase coroutine) {
+            if (firstChild == null) {
+                firstChild = coroutine;
+                lastChild = coroutine;
+            }
+            else {
+                lastChild.nextSibling = coroutine;
+                coroutine.previousSibling = lastChild;
+                lastChild = coroutine;
+            }
+        }
+
+        /// <summary>
+        /// Removes a child from the list of child coroutines.
+        /// </summary>
+        protected void RemoveChild(CoroutineBase coroutine) {
+            if (coroutine.previousSibling != null) {
+                coroutine.previousSibling.nextSibling = coroutine.nextSibling;
+            }
+
+            if (coroutine.nextSibling != null) {
+                coroutine.nextSibling.previousSibling = coroutine.previousSibling;
+            }
+
+            if (firstChild == coroutine) {
+                firstChild = coroutine.nextSibling;
+            }
+
+            if (lastChild == coroutine) {
+                lastChild = coroutine.previousSibling;
+            }
         }
     }
 }
