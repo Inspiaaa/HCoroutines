@@ -19,7 +19,7 @@ public class IconDemo : Node2D
 
         yield return Co.Parallel(
             MoveToPosition(new Vector2(150, 150), 2),
-            ChangeColor(new Color(1, 0, 0), 2)
+            Co.Coroutine(ChangeColor(new Color(1, 0, 0), 2))
         );
 
         yield return Co.Wait(1);
@@ -30,14 +30,12 @@ public class IconDemo : Node2D
         QueueFree();
     }
 
-    private IEnumerator MoveToPosition(Vector2 targetPos, float duration) {
-        float speed = Position.DistanceTo(targetPos) / duration;
-
-        while (Position.DistanceTo(targetPos) > 0.1f) {
-            float movement = speed * Co.DeltaTime;
-            Position = Position.MoveToward(targetPos, movement);
-            yield return null;
-        }
+    private CoroutineBase MoveToPosition(Vector2 targetPos, float duration) {
+        return Co.Tween(tween => {
+            tween
+                .TweenProperty(this, "position", targetPos, duration)
+                .SetTrans(Tween.TransitionType.Cubic);
+        });
     }
 
     private IEnumerator FullRotation(float duration) {
@@ -53,6 +51,8 @@ public class IconDemo : Node2D
     }
 
     private IEnumerator ChangeColor(Color targetColor, float duration) {
+        // Another way to do a tween
+
         SceneTreeTween tween = CreateTween();
         tween
             .TweenProperty(this, "modulate", targetColor, duration)

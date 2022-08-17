@@ -2,6 +2,9 @@ using Godot;
 using System;
 using System.Collections;
 
+// Hierarchical Coroutines for Godot v1.0
+// by @Inspiaaa
+
 namespace HCoroutines {
     /// <summary>
     /// Class that allows for easy access to the standard coroutine types.
@@ -93,5 +96,9 @@ namespace HCoroutines {
 
         public static RepeatCoroutine RepeatInfinitely(Func<IEnumerator> creator)
             => new RepeatCoroutine(-1, coroutine => new Coroutine(creator()));
+
+
+        public static TweenCoroutine Tween(Action<SceneTreeTween> setupTween)
+            => new TweenCoroutine(setupTween);
     }
 }
