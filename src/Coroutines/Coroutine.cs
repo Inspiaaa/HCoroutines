@@ -2,7 +2,8 @@ using Godot;
 using System;
 using System.Collections;
 
-namespace HCoroutines {
+namespace HCoroutines
+{
     /// <summary>
     /// Runs an IEnumerator as a coroutine (like Unity).
     /// If it returns null, it waits until the next frame before continuing
@@ -10,27 +11,33 @@ namespace HCoroutines {
     /// and wait until this new coroutine has finished before continuing the
     /// IEnumerator.
     /// </summary>
-    public class Coroutine : CoroutineBase {
+    public class Coroutine : CoroutineBase
+    {
         private IEnumerator routine;
 
-        public Coroutine(IEnumerator routine) {
+        public Coroutine(IEnumerator routine)
+        {
             this.routine = routine;
         }
 
-        public Coroutine(Func<Coroutine, IEnumerator> creator) {
+        public Coroutine(Func<Coroutine, IEnumerator> creator)
+        {
             this.routine = creator(this);
         }
 
         public override void OnEnter()
         {
             base.OnEnter();
-            if (routine == null) {
+            if (routine == null)
+            {
                 Kill();
             }
         }
 
-        public override void Update() {
-            if (!routine.MoveNext()) {
+        public override void Update()
+        {
+            if (!routine.MoveNext())
+            {
                 Kill();
                 return;
             }
@@ -38,13 +45,15 @@ namespace HCoroutines {
             object obj = routine.Current;
 
             // yield return null; => do nothing.
-            if (obj == null) {
+            if (obj == null)
+            {
                 return;
             }
 
             // yield return some coroutine; => Pause until the returned
             // coroutine is finished.
-            if (obj is CoroutineBase childCoroutine) {
+            if (obj is CoroutineBase childCoroutine)
+            {
                 StartCoroutine(childCoroutine);
                 Pause();
                 return;
@@ -52,14 +61,16 @@ namespace HCoroutines {
 
             // yield return some other enumerator; => Create new Coroutine
             // and pause until it is finished
-            if (obj is IEnumerator childEnumerator) {
+            if (obj is IEnumerator childEnumerator)
+            {
                 StartCoroutine(new Coroutine(childEnumerator));
                 Pause();
                 return;
             }
         }
 
-        public override void OnChildStop(CoroutineBase child) {
+        public override void OnChildStop(CoroutineBase child)
+        {
             base.OnChildStop(child);
             Resume();
         }

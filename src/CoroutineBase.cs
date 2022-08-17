@@ -1,7 +1,8 @@
 using Godot;
 using System;
 
-namespace HCoroutines {
+namespace HCoroutines
+{
     /// <summary>
     /// Base class of all coroutines that allows for pausing / resuming / killing / ... the coroutine.
     /// It is also responsible for managing the hierarchical structure and organisation
@@ -9,7 +10,8 @@ namespace HCoroutines {
     /// The coroutines themselves act like a doubly linked list, so that
     /// the list of children can be efficiently managed and even modified during iteration.
     /// </summary>
-    public class CoroutineBase : ICoroutineStopListener {
+    public class CoroutineBase : ICoroutineStopListener
+    {
         public CoroutineManager manager;
         public ICoroutineStopListener stopListener;
 
@@ -19,7 +21,8 @@ namespace HCoroutines {
         public bool isAlive = true;
         public bool isPlaying = false;
 
-        public void StartCoroutine(CoroutineBase coroutine) {
+        public void StartCoroutine(CoroutineBase coroutine)
+        {
             coroutine.stopListener = this;
             coroutine.manager = manager;
 
@@ -30,7 +33,8 @@ namespace HCoroutines {
         /// <summary>
         /// Called when the coroutine starts.
         /// </summary>
-        public virtual void OnEnter() {
+        public virtual void OnEnter()
+        {
             Resume();
         }
 
@@ -49,7 +53,8 @@ namespace HCoroutines {
         /// each frame.
         /// This is independent of the child coroutines.
         /// </summary>
-        public void Resume() {
+        public void Resume()
+        {
             isPlaying = true;
             manager.ActivateCoroutine(this);
         }
@@ -58,15 +63,18 @@ namespace HCoroutines {
         /// Stops giving the coroutine Update() calls each frame.
         /// This is independent of the child coroutines.
         /// </summary>
-        public void Pause() {
+        public void Pause()
+        {
             isPlaying = false;
             manager.DeactivateCoroutine(this);
         }
 
-        public virtual void OnChildStop(CoroutineBase child) {
+        public virtual void OnChildStop(CoroutineBase child)
+        {
             // If the parent coroutine is dead, then there is no reason to
             // manually remove the child coroutines
-            if (isAlive) {
+            if (isAlive)
+            {
                 RemoveChild(child);
             }
         }
@@ -75,11 +83,14 @@ namespace HCoroutines {
         /// Kills this coroutine and all child coroutines that were started using
         /// StartCoroutine(...) on this coroutine.
         /// </summary>
-        public void Kill() {
-            try {
+        public void Kill()
+        {
+            try
+            {
                 OnExit();
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
                 GD.PrintErr(e.ToString());
             }
 
@@ -87,7 +98,8 @@ namespace HCoroutines {
             manager.DeactivateCoroutine(this);
 
             CoroutineBase child = firstChild;
-            while (child != null) {
+            while (child != null)
+            {
                 child.Kill();
                 child = child.nextSibling;
             }
@@ -98,12 +110,15 @@ namespace HCoroutines {
         /// <summary>
         /// Adds a coroutine as a child.
         /// </summary>
-        protected void AddChild(CoroutineBase coroutine) {
-            if (firstChild == null) {
+        protected void AddChild(CoroutineBase coroutine)
+        {
+            if (firstChild == null)
+            {
                 firstChild = coroutine;
                 lastChild = coroutine;
             }
-            else {
+            else
+            {
                 lastChild.nextSibling = coroutine;
                 coroutine.previousSibling = lastChild;
                 lastChild = coroutine;
@@ -113,20 +128,25 @@ namespace HCoroutines {
         /// <summary>
         /// Removes a child from the list of child coroutines.
         /// </summary>
-        protected void RemoveChild(CoroutineBase coroutine) {
-            if (coroutine.previousSibling != null) {
+        protected void RemoveChild(CoroutineBase coroutine)
+        {
+            if (coroutine.previousSibling != null)
+            {
                 coroutine.previousSibling.nextSibling = coroutine.nextSibling;
             }
 
-            if (coroutine.nextSibling != null) {
+            if (coroutine.nextSibling != null)
+            {
                 coroutine.nextSibling.previousSibling = coroutine.previousSibling;
             }
 
-            if (firstChild == coroutine) {
+            if (firstChild == coroutine)
+            {
                 firstChild = coroutine.nextSibling;
             }
 
-            if (lastChild == coroutine) {
+            if (lastChild == coroutine)
+            {
                 lastChild = coroutine.previousSibling;
             }
         }

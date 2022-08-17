@@ -5,15 +5,19 @@ using System.Collections;
 // Hierarchical Coroutines for Godot v1.0
 // by @Inspiaaa
 
-namespace HCoroutines {
+namespace HCoroutines
+{
     /// <summary>
     /// Class that allows for easy access to the standard coroutine types.
     /// </summary>
-    public static class Co {
-        private static Coroutine[] GetCoroutines(IEnumerator[] enumerators) {
+    public static class Co
+    {
+        private static Coroutine[] GetCoroutines(IEnumerator[] enumerators)
+        {
             Coroutine[] coroutines = new Coroutine[enumerators.Length];
 
-            for (int i = 0; i < enumerators.Length; i ++) {
+            for (int i = 0; i < enumerators.Length; i++)
+            {
                 coroutines[i] = new Coroutine(enumerators[i]);
             }
 
@@ -26,7 +30,8 @@ namespace HCoroutines {
         public static void Run(CoroutineBase coroutine)
             => CoroutineManager.Instance.StartCoroutine(coroutine);
 
-        public static Coroutine Run(IEnumerator coroutine){
+        public static Coroutine Run(IEnumerator coroutine)
+        {
             Coroutine co = new Coroutine(coroutine);
             CoroutineManager.Instance.StartCoroutine(co);
             return co;
@@ -35,7 +40,8 @@ namespace HCoroutines {
         public static Coroutine Run(Func<IEnumerator> creator)
             => Run(creator());
 
-        public static Coroutine Run(Func<Coroutine, IEnumerator> creator) {
+        public static Coroutine Run(Func<Coroutine, IEnumerator> creator)
+        {
             Coroutine coroutine = new Coroutine(creator);
             CoroutineManager.Instance.StartCoroutine(coroutine);
             return coroutine;

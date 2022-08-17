@@ -10,7 +10,8 @@ public class IconDemo : Node2D
         Co.Run(DoAnimation());
     }
 
-    private IEnumerator DoAnimation() {
+    private IEnumerator DoAnimation()
+    {
         yield return MoveToPosition(new Vector2(0, 0), 2);
 
         yield return FullRotation(2);
@@ -30,7 +31,8 @@ public class IconDemo : Node2D
         QueueFree();
     }
 
-    private CoroutineBase MoveToPosition(Vector2 targetPos, float duration) {
+    private CoroutineBase MoveToPosition(Vector2 targetPos, float duration)
+    {
         return Co.Tween(tween => {
             tween
                 .TweenProperty(this, "position", targetPos, duration)
@@ -38,11 +40,13 @@ public class IconDemo : Node2D
         });
     }
 
-    private IEnumerator FullRotation(float duration) {
+    private IEnumerator FullRotation(float duration)
+    {
         float angle = 0;
         float speed = 2 * Mathf.Pi / duration;
 
-        while (angle < 2 * Mathf.Pi) {
+        while (angle < 2 * Mathf.Pi)
+        {
             angle += speed * Co.DeltaTime;
             Rotation = angle;
             yield return null;
@@ -50,7 +54,8 @@ public class IconDemo : Node2D
         Rotation = 0;
     }
 
-    private IEnumerator ChangeColor(Color targetColor, float duration) {
+    private IEnumerator ChangeColor(Color targetColor, float duration)
+    {
         // Another way to do a tween
 
         SceneTreeTween tween = CreateTween();
