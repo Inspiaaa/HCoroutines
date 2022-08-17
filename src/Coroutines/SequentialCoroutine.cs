@@ -1,7 +1,3 @@
-using Godot;
-using System;
-using System.Collections;
-
 namespace HCoroutines
 {
     /// <summary>

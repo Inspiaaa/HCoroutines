@@ -1,4 +1,3 @@
-
 namespace HCoroutines
 {
     public interface ICoroutineStopListener
