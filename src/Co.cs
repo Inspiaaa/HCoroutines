@@ -1,8 +1,9 @@
 using Godot;
 using System;
 using System.Collections;
+using System.Threading.Tasks;
 
-// Hierarchical Coroutines for Godot v1.0
+// Hierarchical Coroutines v1.0 for Godot
 // by @Inspiaaa
 
 namespace HCoroutines
@@ -106,5 +107,8 @@ namespace HCoroutines
 
         public static TweenCoroutine Tween(Action<SceneTreeTween> setupTween)
             => new TweenCoroutine(setupTween);
+
+        public static AwaitCoroutine<T> Await<T>(Task<T> task)
+            => new AwaitCoroutine<T>(task);
     }
 }
