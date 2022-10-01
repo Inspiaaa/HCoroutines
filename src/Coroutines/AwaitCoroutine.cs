@@ -18,23 +18,55 @@ namespace HCoroutines
             this.Task = task;
         }
 
-        // TODO: Implement for Task that does not return a value.
-
-        public override void OnEnter()
-        {
-            base.OnEnter();
+        private void TryEnd() {
             if (Task.IsCompleted)
             {
                 Kill();
             }
         }
 
+        public override void OnEnter()
+        {
+            base.OnEnter();
+            TryEnd();
+        }
+
         public override void Update()
         {
+            TryEnd();
+        }
+    }
+
+    /// <summary>
+    /// A coroutine that waits until an asynchronous task has been completed.
+    /// If the coroutine is killed before completion, the async task
+    /// will currently *not* be canceled.
+    /// </summary>
+    public class AwaitCoroutine : CoroutineBase
+    {
+        public readonly Task Task;
+
+        public AwaitCoroutine(Task task)
+        {
+            this.Task = task;
+        }
+
+        private void TryEnd() {
             if (Task.IsCompleted)
             {
                 Kill();
             }
+        }
+
+        public override void OnEnter()
+        {
+            base.OnEnter();
+            TryEnd();
+        }
+
+        public override void Update()
+        {
+            TryEnd();
         }
     }
 }

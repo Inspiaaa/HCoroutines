@@ -2,6 +2,7 @@ using Godot;
 using System;
 using System.Collections;
 using HCoroutines;
+using System.Threading.Tasks;
 
 public class IconDemo : Node2D
 {
@@ -16,7 +17,7 @@ public class IconDemo : Node2D
 
         yield return FullRotation(2);
 
-        yield return Co.Wait(1);
+        yield return Co.Await(Task.Delay(1000));
 
         yield return Co.Parallel(
             MoveToPosition(new Vector2(150, 150), 2),

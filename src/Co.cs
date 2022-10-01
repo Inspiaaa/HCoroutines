@@ -108,7 +108,11 @@ namespace HCoroutines
         public static TweenCoroutine Tween(Action<SceneTreeTween> setupTween)
             => new TweenCoroutine(setupTween);
 
+
         public static AwaitCoroutine<T> Await<T>(Task<T> task)
             => new AwaitCoroutine<T>(task);
+
+        public static AwaitCoroutine Await(Task task)
+            => new AwaitCoroutine(task);
     }
 }
