@@ -4,7 +4,7 @@ using System.Collections;
 using HCoroutines;
 using System.Threading.Tasks;
 
-public class IconDemo : Node2D
+public class IconAnimation : Node2D
 {
     public override void _Ready()
     {
