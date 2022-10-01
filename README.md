@@ -112,6 +112,8 @@ public class Demo : Node2D {
 
 3. In order for the coroutines to be automatically managed and updated each frame, some helper scripts have to be loaded for each scene: Simply go to <kbd>Project</kbd>/<kbd>Project Settings...</kbd> and select the <kbd>AutoLoad</kbd> tab. Then select the path to the `CoroutineManager.tscn` file that was included in the unzipped files and then simply press <kbd>Add</kbd>.
 
+![](https://github.com/Inspiaaa/HCoroutines/blob/master/docs/AutoLoad.png?raw=true)
+
 For a complete working example, you can see the demo scene.
 
 ## Feature overview
