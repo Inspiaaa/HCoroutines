@@ -1,6 +1,6 @@
 # HCoroutines
 
-![Godot 3.5](https://img.shields.io/badge/Godot-3.5-blue?logo=godot-engine&logoColor=white&style=for-the-badge) ![](https://img.shields.io/github/license/Inspiaaa/HCoroutines?style=for-the-badge) ![](https://img.shields.io/github/v/release/Inspiaaa/HCoroutines?style=for-the-badge)
+![Godot 3.5](https://img.shields.io/badge/Godot-3.5-blue?logo=godot-engine&logoColor=white&style=for-the-badge) ![](https://img.shields.io/github/license/Inspiaaa/HCoroutines?style=for-the-badge) ![](https://img.shields.io/github/v/release/Inspiaaa/HCoroutines?style=for-the-badge) ![](https://img.shields.io/badge/Godot-C%23-green?logo=csharp&style=for-the-badge)
 
 HCoroutines is a library that helps you write game logic in an **intuitive** way by bringing the concept of **hierarchical coroutines** to Godot (C#). Its built-in coroutine types are specifically designed for Godot, **reducing boilerplate** code and increasing **readability**. At the same time, **async methods** can also be seamlessly integrated with coroutines.
 
