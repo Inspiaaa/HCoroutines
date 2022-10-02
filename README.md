@@ -1,5 +1,7 @@
 # HCoroutines
 
+![Godot 3.5](https://img.shields.io/badge/Godot-3.5-blue?logo=godot-engine&logoColor=white&style=for-the-badge) ![](https://img.shields.io/github/license/Inspiaaa/HCoroutines?style=for-the-badge) ![](https://img.shields.io/github/v/release/Inspiaaa/HCoroutines?style=for-the-badge)
+
 HCoroutines is a library that helps you write game logic in an **intuitive** way by bringing the concept of **hierarchical coroutines** to Godot (C#). Its built-in coroutine types are specifically designed for Godot, **reducing boilerplate** code and increasing **readability**. At the same time, **async methods** can also be seamlessly integrated with coroutines.
 
 Coroutines are functions that can be paused during execution and then resumed  once some condition is met. This allows you to write game logic in sequential steps, defining what logic should be performed when.
