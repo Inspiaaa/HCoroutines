@@ -14,6 +14,12 @@ namespace HCoroutines
 
         public override void OnEnter()
         {
+            if (coroutines.Length == 0)
+            {
+                Kill();
+                return;
+            }
+
             foreach (CoroutineBase coroutine in coroutines)
             {
                 StartCoroutine(coroutine);
