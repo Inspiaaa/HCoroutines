@@ -53,8 +53,12 @@ namespace HCoroutines
             // coroutine is finished.
             if (obj is CoroutineBase childCoroutine)
             {
-                StartCoroutine(childCoroutine);
+                // It's important to pause before starting the child coroutine.
+                // Otherwise, if the child coroutine instantly terminates, which would
+                // lead to this coroutine resuming, it would pause this coroutine.
+                // That would not be correct.
                 Pause();
+                StartCoroutine(childCoroutine);
                 return;
             }
 
@@ -62,8 +66,8 @@ namespace HCoroutines
             // and pause until it is finished
             if (obj is IEnumerator childEnumerator)
             {
-                StartCoroutine(new Coroutine(childEnumerator));
                 Pause();
+                StartCoroutine(new Coroutine(childEnumerator));
                 return;
             }
         }
