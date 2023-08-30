@@ -18,7 +18,8 @@ namespace HCoroutines
             this.Task = task;
         }
 
-        private void TryEnd() {
+        private void TryEnd()
+        {
             if (Task.IsCompleted)
             {
                 Kill();
@@ -51,7 +52,8 @@ namespace HCoroutines
             this.Task = task;
         }
 
-        private void TryEnd() {
+        private void TryEnd()
+        {
             if (Task.IsCompleted)
             {
                 Kill();

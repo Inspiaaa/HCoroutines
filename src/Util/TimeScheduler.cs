@@ -16,7 +16,7 @@ namespace HCoroutines.Util
             Instance = this;
         }
 
-        private int getNextScheduleId()
+        private int GetNextScheduleId()
         {
             int id = idCounter;
             // Allow for integer overflow to wrap around to the beginning.
@@ -32,7 +32,7 @@ namespace HCoroutines.Util
 
         public int ScheduleOnSignal(Action action, Godot.Object obj, string signal)
         {
-            int id = getNextScheduleId();
+            int id = GetNextScheduleId();
             actionsById[id] = action;
             obj.Connect(signal, this, "CallCallback", new Godot.Collections.Array(id), (int)ConnectFlags.Oneshot);
             return id;
