@@ -25,6 +25,7 @@ namespace HCoroutines
             if (isIteratingActiveCoroutines)
             {
                 coroutinesToActivate.Add(coroutine);
+                coroutinesToDeactivate.Remove(coroutine);
             }
             else
             {
@@ -37,6 +38,7 @@ namespace HCoroutines
             if (isIteratingActiveCoroutines)
             {
                 coroutinesToDeactivate.Add(coroutine);
+                coroutinesToActivate.Remove(coroutine);
             }
             else
             {
