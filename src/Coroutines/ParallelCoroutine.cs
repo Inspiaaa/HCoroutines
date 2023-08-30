@@ -26,9 +26,9 @@ namespace HCoroutines
             }
         }
 
-        public override void OnChildStop(CoroutineBase child)
+        public override void OnChildStopped(CoroutineBase child)
         {
-            base.OnChildStop(child);
+            base.OnChildStopped(child);
 
             // If there are no more actively running coroutines, stop.
             if (firstChild == null)

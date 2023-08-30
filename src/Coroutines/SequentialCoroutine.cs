@@ -25,9 +25,9 @@ namespace HCoroutines
             StartCoroutine(coroutines[0]);
         }
 
-        public override void OnChildStop(CoroutineBase child)
+        public override void OnChildStopped(CoroutineBase child)
         {
-            base.OnChildStop(child);
+            base.OnChildStopped(child);
 
             idx += 1;
             if (idx < coroutines.Length)

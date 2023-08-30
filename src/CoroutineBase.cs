@@ -74,7 +74,7 @@ namespace HCoroutines
             manager.DeactivateCoroutine(this);
         }
 
-        public virtual void OnChildStop(CoroutineBase child)
+        public virtual void OnChildStopped(CoroutineBase child)
         {
             // If the parent coroutine is dead, then there is no reason to
             // manually remove the child coroutines
@@ -109,7 +109,7 @@ namespace HCoroutines
                 child = child.nextSibling;
             }
 
-            stopListener?.OnChildStop(this);
+            stopListener?.OnChildStopped(this);
         }
 
         /// <summary>

@@ -2,6 +2,6 @@ namespace HCoroutines
 {
     public interface ICoroutineStopListener
     {
-        void OnChildStop(CoroutineBase coroutine);
+        void OnChildStopped(CoroutineBase coroutine);
     }
 }

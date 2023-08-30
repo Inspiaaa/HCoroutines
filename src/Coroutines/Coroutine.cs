@@ -74,9 +74,9 @@ namespace HCoroutines
             }
         }
 
-        public override void OnChildStop(CoroutineBase child)
+        public override void OnChildStopped(CoroutineBase child)
         {
-            base.OnChildStop(child);
+            base.OnChildStopped(child);
             ResumeUpdates();
         }
     }

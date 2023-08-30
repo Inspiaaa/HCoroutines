@@ -38,9 +38,9 @@ namespace HCoroutines
             StartCoroutine(coroutine);
         }
 
-        public override void OnChildStop(CoroutineBase child)
+        public override void OnChildStopped(CoroutineBase child)
         {
-            base.OnChildStop(child);
+            base.OnChildStopped(child);
 
             if (!IsInfinite && currentRepeatCount > repeatTimes)
             {
