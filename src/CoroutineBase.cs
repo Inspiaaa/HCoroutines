@@ -90,6 +90,11 @@ namespace HCoroutines
         /// </summary>
         public void Kill()
         {
+            if (!isAlive)
+            {
+                return;
+            }
+
             try
             {
                 OnExit();

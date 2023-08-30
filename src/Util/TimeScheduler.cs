@@ -34,7 +34,15 @@ namespace HCoroutines.Util
         {
             int id = GetNextScheduleId();
             actionsById[id] = action;
-            obj.Connect(signal, this, "CallCallback", new Godot.Collections.Array(id), (int)ConnectFlags.Oneshot);
+
+            obj.Connect(
+                signal,
+                this,
+                nameof(CallCallback),
+                new Godot.Collections.Array(id),
+                (int)ConnectFlags.Oneshot
+            );
+
             return id;
         }
 

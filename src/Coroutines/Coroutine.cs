@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.ComponentModel;
 
 namespace HCoroutines
 {
@@ -46,7 +47,7 @@ namespace HCoroutines
             object obj = routine.Current;
 
             // yield return null; => do nothing.
-            if (obj == null)
+            if (obj is null)
             {
                 return;
             }
