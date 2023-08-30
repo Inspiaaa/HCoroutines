@@ -16,10 +16,13 @@ namespace HCoroutines
 
         public override void OnEnter()
         {
-            if (coroutines.Length > 0)
+            if (coroutines.Length == 0)
             {
-                StartCoroutine(coroutines[0]);
+                Kill();
+                return;
             }
+
+            StartCoroutine(coroutines[0]);
         }
 
         public override void OnChildStop(CoroutineBase child)
