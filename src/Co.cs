@@ -74,6 +74,10 @@ namespace HCoroutines
             => new WaitDelayCoroutine(delay);
 
 
+        public static WaitWhileCoroutine WaitWhile(Func<Boolean> condition)
+            => new WaitWhileCoroutine(condition);
+
+
         public static WaitForSignalCoroutine WaitForSignal(Godot.Object obj, string signal)
             => new WaitForSignalCoroutine(obj, signal);
 
