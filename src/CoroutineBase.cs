@@ -50,11 +50,16 @@ namespace HCoroutines
 
         /// <summary>
         /// Starts playing this coroutine, meaning that it will receive Update() calls
-        /// each frame.
-        /// This is independent of the child coroutines.
+        /// each frame. This is independent of the child coroutines.
+        /// This method only works if the coroutine is still alive.
         /// </summary>
         public void ResumeUpdates()
         {
+            if (!isAlive)
+            {
+                throw new InvalidOperationException("Cannot resume updates on dead coroutine.");
+            }
+
             isPlaying = true;
             manager.ActivateCoroutine(this);
         }

@@ -1,5 +1,4 @@
 using System;
-using HCoroutines.Util;
 
 namespace HCoroutines
 {
@@ -18,7 +17,7 @@ namespace HCoroutines
         public override void OnEnter()
         {
             CheckCondition();
-            ResumeUpdates();
+            if (isAlive) ResumeUpdates();
         }
 
         public override void Update()

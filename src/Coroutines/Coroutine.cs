@@ -29,6 +29,7 @@ namespace HCoroutines
             if (routine == null)
             {
                 Kill();
+                return;
             }
 
             ResumeUpdates();

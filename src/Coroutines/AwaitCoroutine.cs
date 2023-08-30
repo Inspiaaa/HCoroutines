@@ -29,7 +29,7 @@ namespace HCoroutines
         public override void OnEnter()
         {
             TryEnd();
-            ResumeUpdates();
+            if (isAlive) ResumeUpdates();
         }
 
         public override void Update()
