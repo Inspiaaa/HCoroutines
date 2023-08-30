@@ -197,6 +197,18 @@ Features of the `Coroutine` class:
   
   - Waits for a certain delay in seconds
 
+- `WaitWhileCoroutine`
+  
+  - `Co.WaitWhile( () => x < 5 )`
+  
+  - Waits while a certain condition is true
+
+- `WaitUntilCoroutine`
+  
+  - `Co.WaitUntil( () => x < 5 )`
+  
+  - Waits until a certain condition is true
+
 - `WaitForSignalCoroutine`
   
   - `Co.WaitForSignal(obj, signal)`
