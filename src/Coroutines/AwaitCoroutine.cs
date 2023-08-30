@@ -28,8 +28,8 @@ namespace HCoroutines
 
         public override void OnEnter()
         {
-            base.OnEnter();
             TryEnd();
+            ResumeUpdates();
         }
 
         public override void Update()

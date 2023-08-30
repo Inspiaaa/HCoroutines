@@ -26,11 +26,12 @@ namespace HCoroutines
 
         public override void OnEnter()
         {
-            base.OnEnter();
             if (routine == null)
             {
                 Kill();
             }
+
+            ResumeUpdates();
         }
 
         public override void Update()
@@ -57,7 +58,7 @@ namespace HCoroutines
                 // Otherwise, if the child coroutine instantly terminates, which would
                 // lead to this coroutine resuming, it would pause this coroutine.
                 // That would not be correct.
-                Pause();
+                PauseUpdates();
                 StartCoroutine(childCoroutine);
                 return;
             }
@@ -66,7 +67,7 @@ namespace HCoroutines
             // and pause until it is finished
             if (obj is IEnumerator childEnumerator)
             {
-                Pause();
+                PauseUpdates();
                 StartCoroutine(new Coroutine(childEnumerator));
                 return;
             }
@@ -75,7 +76,7 @@ namespace HCoroutines
         public override void OnChildStop(CoroutineBase child)
         {
             base.OnChildStop(child);
-            Resume();
+            ResumeUpdates();
         }
     }
 }

@@ -137,13 +137,13 @@ coroutine.Kill();
  Removing the coroutine from the list of coroutines that are updated each frame:
 
 ```csharp
-coroutine.Pause();
+coroutine.PauseUpdates();
 ```
 
 Adding the coroutine to the update loop again:
 
 ```csharp
-coroutine.Resume();
+coroutine.ResumeUpdates();
 ```
 
 To access the delta time from within a coroutine:

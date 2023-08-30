@@ -35,7 +35,7 @@ namespace HCoroutines
         /// </summary>
         public virtual void OnEnter()
         {
-            Resume();
+            ResumeUpdates();
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace HCoroutines
         /// each frame.
         /// This is independent of the child coroutines.
         /// </summary>
-        public void Resume()
+        public void ResumeUpdates()
         {
             isPlaying = true;
             manager.ActivateCoroutine(this);
@@ -63,7 +63,7 @@ namespace HCoroutines
         /// Stops giving the coroutine Update() calls each frame.
         /// This is independent of the child coroutines.
         /// </summary>
-        public void Pause()
+        public void PauseUpdates()
         {
             isPlaying = false;
             manager.DeactivateCoroutine(this);
