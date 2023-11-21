@@ -1,6 +1,6 @@
 # HCoroutines
 
-![Godot 3.5](https://img.shields.io/badge/Godot-3.5-blue?logo=godot-engine&logoColor=white&style=for-the-badge) ![](https://img.shields.io/github/license/Inspiaaa/HCoroutines?style=for-the-badge) ![](https://img.shields.io/github/v/release/Inspiaaa/HCoroutines?style=for-the-badge) ![](https://img.shields.io/badge/Godot-C%23-green?logo=csharp&style=for-the-badge)
+![Godot 4.1](https://img.shields.io/badge/Godot-4.1-blue?logo=godot-engine&logoColor=white&style=for-the-badge) ![](https://img.shields.io/github/license/Inspiaaa/HCoroutines?style=for-the-badge) ![](https://img.shields.io/github/v/release/Inspiaaa/HCoroutines?style=for-the-badge) ![](https://img.shields.io/badge/Godot-C%23-green?logo=csharp&style=for-the-badge)
 
 HCoroutines is a library that helps you write game logic in an **intuitive** way by bringing the concept of **hierarchical coroutines** to Godot (C#). Its built-in coroutine types are specifically designed for Godot, **reducing boilerplate** code and increasing **readability**. At the same time, **async methods** can also be seamlessly integrated with coroutines.
 
@@ -29,7 +29,7 @@ using System.Threading.Tasks;
 // Import the library.
 using HCoroutines;
 
-public class Demo : Node2D {
+public partial class Demo : Node2D {
     public override void _Ready() {
         // Spawn a new coroutine that is managed by
         // the default CoroutineManager.
@@ -82,7 +82,7 @@ public class Demo : Node2D {
 
         while (Position.DistanceTo(target) > 0.01f) {
             // delta time can be accessed via Co.DeltaTime.
-            Position = Position.MoveToward(target, duration * Co.DeltaTime);
+            Position = Position.MoveToward(target, duration * (float)Co.DeltaTime);
             yield return null;
         }
     }
@@ -93,7 +93,7 @@ public class Demo : Node2D {
         float angle = 0;
 
         while (angle < fullRotation) {
-            angle += angularSpeed * Co.DeltaTime;
+            angle += angularSpeed * (float)Co.DeltaTime;
             Rotation = angle;
             yield return null;
         }
