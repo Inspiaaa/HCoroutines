@@ -4,11 +4,11 @@ using System.Collections.Generic;
 
 namespace HCoroutines.Util
 {
-    public class TimeScheduler : Node
+    public partial class TimeScheduler : Node
     {
         public static TimeScheduler Instance { get; private set; }
 
-        private Dictionary<int, Action> actionsById = new Dictionary<int, Action>();
+        private Dictionary<int, Action> actionsById = new();
         private int idCounter = 0;
 
         public override void _EnterTree()
@@ -26,21 +26,19 @@ namespace HCoroutines.Util
 
         public int Schedule(Action action, float delay)
         {
-            SceneTreeTimer timer = GetTree().CreateTimer(delay, pauseModeProcess: false);
+            SceneTreeTimer timer = GetTree().CreateTimer(delay, processAlways: false);
             return ScheduleOnSignal(action, timer, "timeout");
         }
 
-        public int ScheduleOnSignal(Action action, Godot.Object obj, string signal)
+        public int ScheduleOnSignal(Action action, GodotObject obj, string signal)
         {
             int id = GetNextScheduleId();
             actionsById[id] = action;
 
             obj.Connect(
                 signal,
-                this,
-                nameof(CallCallback),
-                new Godot.Collections.Array(id),
-                (int)ConnectFlags.Oneshot
+                Callable.From(() => CallCallback(id)),
+                (int)ConnectFlags.OneShot
             );
 
             return id;

@@ -1,9 +1,9 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=3 format=3 uid="uid://cb2pyqnqkjpuc"]
 
-[ext_resource path="res://HCoroutines/demo/Icon.png" type="Texture" id=1]
-[ext_resource path="res://HCoroutines/demo/IconAnimation.cs" type="Script" id=2]
+[ext_resource type="Texture2D" uid="uid://bu2485fdkbfkv" path="res://HCoroutines/demo/Icon.png" id="1"]
+[ext_resource type="Script" path="res://HCoroutines/demo/IconAnimation.cs" id="2"]
 
-[node name="Icon" type="Sprite"]
-position = Vector2( 499, 297 )
-texture = ExtResource( 1 )
-script = ExtResource( 2 )
+[node name="Icon" type="Sprite2D"]
+position = Vector2(499, 297)
+texture = ExtResource("1")
+script = ExtResource("2")

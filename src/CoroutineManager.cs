@@ -4,10 +4,10 @@ using System.Collections.Generic;
 
 namespace HCoroutines
 {
-    public class CoroutineManager : Node
+    public partial class CoroutineManager : Node
     {
         public static CoroutineManager Instance { get; private set; }
-        public float DeltaTime { get; set; }
+        public double DeltaTime { get; set; }
 
         private bool isIteratingActiveCoroutines = false;
         private HashSet<CoroutineBase> activeCoroutines = new HashSet<CoroutineBase>();
@@ -51,7 +51,7 @@ namespace HCoroutines
             Instance = this;
         }
 
-        public override void _Process(float delta)
+        public override void _Process(double delta)
         {
             DeltaTime = delta;
 
