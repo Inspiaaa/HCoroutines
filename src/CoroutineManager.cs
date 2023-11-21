@@ -7,7 +7,8 @@ namespace HCoroutines
     public partial class CoroutineManager : Node
     {
         public static CoroutineManager Instance { get; private set; }
-        public double DeltaTime { get; set; }
+        public float DeltaTime { get; set; }
+        public double DeltaTimeDouble { get; set; }
 
         private bool isIteratingActiveCoroutines = false;
         private HashSet<CoroutineBase> activeCoroutines = new HashSet<CoroutineBase>();
@@ -53,7 +54,8 @@ namespace HCoroutines
 
         public override void _Process(double delta)
         {
-            DeltaTime = delta;
+            DeltaTimeDouble = delta;
+            DeltaTime = (float)delta;
 
             isIteratingActiveCoroutines = true;
 

@@ -82,7 +82,7 @@ public partial class Demo : Node2D {
 
         while (Position.DistanceTo(target) > 0.01f) {
             // delta time can be accessed via Co.DeltaTime.
-            Position = Position.MoveToward(target, duration * (float)Co.DeltaTime);
+            Position = Position.MoveToward(target, duration * Co.DeltaTime);
             yield return null;
         }
     }
@@ -93,7 +93,7 @@ public partial class Demo : Node2D {
         float angle = 0;
 
         while (angle < fullRotation) {
-            angle += angularSpeed * (float)Co.DeltaTime;
+            angle += angularSpeed * Co.DeltaTime;
             Rotation = angle;
             yield return null;
         }
@@ -149,7 +149,11 @@ coroutine.ResumeUpdates();
 To access the delta time from within a coroutine:
 
 ```csharp
-double deltaTime = Co.DeltaTime;
+float deltaTime = Co.DeltaTime;
+```
+or
+```csharp
+double deltaTime = Co.DeltaTimeDouble;
 ```
 
 All coroutines inherit from the `CoroutineBase` class. To define a coroutine in the intuitive / standard way with `IEnumerators`, you can use the `Coroutine` class which wraps the `IEnumerator` (Either via `Co.Coroutine(...)` or `new Coroutine(...)`).

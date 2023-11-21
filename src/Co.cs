@@ -25,7 +25,9 @@ namespace HCoroutines
             return coroutines;
         }
 
-        public static double DeltaTime => CoroutineManager.Instance.DeltaTime;
+        public static float DeltaTime => CoroutineManager.Instance.DeltaTime;
+
+        public static double DeltaTimeDouble => CoroutineManager.Instance.DeltaTimeDouble;
 
 
         public static void Run(CoroutineBase coroutine)

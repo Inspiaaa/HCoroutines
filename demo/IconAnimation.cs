@@ -47,7 +47,7 @@ public partial class IconAnimation : Node2D
 
         while (angle < 2 * Mathf.Pi)
         {
-            angle += speed * (float)Co.DeltaTime;
+            angle += speed * Co.DeltaTime;
             Rotation = angle;
             yield return null;
         }
