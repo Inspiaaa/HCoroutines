@@ -149,7 +149,7 @@ coroutine.ResumeUpdates();
 To access the delta time from within a coroutine:
 
 ```csharp
-float deltaTime = Co.DeltaTime;
+double deltaTime = Co.DeltaTime;
 ```
 
 All coroutines inherit from the `CoroutineBase` class. To define a coroutine in the intuitive / standard way with `IEnumerators`, you can use the `Coroutine` class which wraps the `IEnumerator` (Either via `Co.Coroutine(...)` or `new Coroutine(...)`).
