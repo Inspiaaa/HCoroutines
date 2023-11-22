@@ -60,7 +60,7 @@ public partial class Demo : Node2D {
         yield return Co.Await(Task.Delay(100));
 
         // Await and use the result of an async task
-        var fetch = Co.Await<int>(FetchNumber());
+        var fetch = Co.Await(FetchNumber());
         yield return fetch;
         int number = fetch.Task.Result;
 
@@ -77,18 +77,17 @@ public partial class Demo : Node2D {
     }
 
     private IEnumerator GoTo(Vector2 target, float duration) {
-        Vector2 start = Position;
         float speed = Position.DistanceTo(target) / duration;
 
         while (Position.DistanceTo(target) > 0.01f) {
             // delta time can be accessed via Co.DeltaTime.
-            Position = Position.MoveToward(target, duration * Co.DeltaTime);
+            Position = Position.MoveToward(target, speed * Co.DeltaTime);
             yield return null;
         }
     }
 
     private IEnumerator Turn(float duration) {
-        float fullRotation = (float)(2 * Math.PI);
+        float fullRotation = 2 * Mathf.Pi;
         float angularSpeed = fullRotation / duration;
         float angle = 0;
 
@@ -99,7 +98,7 @@ public partial class Demo : Node2D {
         }
     }
 
-    private async Task<int> FetchNumber() {
+    private static async Task<int> FetchNumber() {
         await Task.Delay(100);
         return 0;
     }
