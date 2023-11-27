@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://cb2pyqnqkjpuc"]
 
-[ext_resource type="Texture2D" uid="uid://bu2485fdkbfkv" path="res://HCoroutines/demo/Icon.png" id="1"]
-[ext_resource type="Script" path="res://HCoroutines/demo/IconAnimation.cs" id="2"]
+[ext_resource type="Texture2D" uid="uid://bu2485fdkbfkv" path="res://addons/HCoroutines/demo/Icon.png" id="1"]
+[ext_resource type="Script" path="res://addons/HCoroutines/demo/IconAnimation.cs" id="2"]
 
 [node name="Icon" type="Sprite2D"]
 position = Vector2(499, 297)

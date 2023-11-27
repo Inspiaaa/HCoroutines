@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://chu3ymn2s6v1s"]
 
-[ext_resource type="PackedScene" uid="uid://cb2pyqnqkjpuc" path="res://HCoroutines/demo/AnimatedIcon.tscn" id="1"]
-[ext_resource type="Script" path="res://HCoroutines/demo/IconSpawner.cs" id="2"]
+[ext_resource type="PackedScene" uid="uid://cb2pyqnqkjpuc" path="res://addons/HCoroutines/demo/AnimatedIcon.tscn" id="1"]
+[ext_resource type="Script" path="res://addons/HCoroutines/demo/IconSpawner.cs" id="2"]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("2")

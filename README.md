@@ -1,6 +1,9 @@
 # HCoroutines
 
-![Godot 4.1.3](https://img.shields.io/badge/Godot-4.1.3-blue?logo=godot-engine&logoColor=white&style=for-the-badge) ![](https://img.shields.io/github/license/Inspiaaa/HCoroutines?style=for-the-badge) ![](https://img.shields.io/github/v/release/Inspiaaa/HCoroutines?style=for-the-badge) ![](https://img.shields.io/badge/Godot-C%23-green?logo=csharp&style=for-the-badge)
+![Godot 4.2.0](https://img.shields.io/badge/Godot-4.2.0-blue?logo=godot-engine&logoColor=white&style=for-the-badge)
+![CSharp](https://img.shields.io/badge/Godot-C%23-green?logo=csharp&style=for-the-badge)
+![MIT License](https://img.shields.io/github/license/BangL/HCoroutines?style=for-the-badge)
+![Release](https://img.shields.io/github/v/release/BangL/HCoroutines?style=for-the-badge)
 
 HCoroutines is a library that helps you write game logic in an **intuitive** way by bringing the concept of **hierarchical coroutines** to Godot (C#). Its built-in coroutine types are specifically designed for Godot, **reducing boilerplate** code and increasing **readability**. At the same time, **async methods** can also be seamlessly integrated with coroutines.
 
@@ -18,7 +21,7 @@ HCoroutines implements this concept in an efficient and optimised way.
 
 ---
 
-# Example
+## Example
 
 ```csharp
 using Godot;
@@ -105,17 +108,32 @@ public partial class Demo : Node2D {
 }
 ```
 
-## Setup
+For a complete working example, you can see the demo scene.
+
+## Installation
+
+### Manually (Release Zip)
 
 1. Go to the Releases page and download the latest version of this library
 
-2. Unzip the files and copy them anywhere into your Godot project
+2. Unzip the files and copy them into your `./addons/` folder of your Godot project
 
-3. In order for the coroutines to be automatically managed and updated each frame, some helper scripts have to be loaded for each scene: Simply go to <kbd>Project</kbd>/<kbd>Project Settings...</kbd> and select the <kbd>AutoLoad</kbd> tab. Then select the path to the `CoroutineManager.tscn` file that was included in the unzipped files and then simply press <kbd>Add</kbd>.
+### As Git Submodule
 
-![](./docs/AutoLoad.png)
+1. Click on Code (the green button on top of this page) and then copy one of the Clone URL's (https, ssh or github cli)
 
-For a complete working example, you can see the demo scene.
+2. go into your local repo and add it as submodule in `./addons/`:
+
+```sh
+mkdir -p addons
+git submodule add https://github.com/BangL/HCoroutines.git ./addons/
+```
+
+or similar (depending on your git client)
+
+## Setup (! Important !)
+
+In order for the coroutines to be automatically managed and updated each frame, some helper scripts have to be loaded for each scene: Simply go to <kbd>Project</kbd>/<kbd>Project Settings...</kbd> and select the <kbd>AutoLoad</kbd> tab. Then select the path to the `./addons/HCoroutines/CoroutineManager.tscn` file and press <kbd>Add</kbd>.
 
 ## Feature overview
 
@@ -150,10 +168,14 @@ To access the delta time from within a coroutine:
 ```csharp
 float deltaTime = Co.DeltaTime;
 ```
-or
+
+.. or:
+
 ```csharp
 double deltaTime = Co.DeltaTimeDouble;
 ```
+
+.. if double precision is wanted
 
 All coroutines inherit from the `CoroutineBase` class. To define a coroutine in the intuitive / standard way with `IEnumerators`, you can use the `Coroutine` class which wraps the `IEnumerator` (Either via `Co.Coroutine(...)` or `new Coroutine(...)`).
 
@@ -171,9 +193,9 @@ Features of the `Coroutine` class:
   
   - Base class of all coroutines
 
-- `Coroutine` 
+- `Coroutine`
   
-  - `Co.Coroutine(ienumerator)`
+  - `Co.Coroutine(IEnumerator)`
   
   - Default coroutine type for running `IEnumerator`s
 
@@ -220,9 +242,9 @@ Features of the `Coroutine` class:
 
 - `AwaitCoroutine`
   
-  - `Co.Await(task)`: Awaits an async tasak
+  - `Co.Await(task)`: Awaits an async task
   
-  - `Co.Await<T>(task)`: Awaits an asnyc task that returns some value
+  - `Co.Await<T>(task)`: Awaits an async task that returns some value
 
 - `TweenCoroutine`
   
