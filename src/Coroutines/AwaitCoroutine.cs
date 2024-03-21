@@ -18,23 +18,12 @@ namespace HCoroutines
             this.Task = task;
         }
 
-        private void TryEnd()
-        {
-            if (Task.IsCompleted)
-            {
-                Kill();
-            }
-        }
-
         public override void OnEnter()
         {
-            TryEnd();
-            if (isAlive) ResumeUpdates();
-        }
-
-        public override void Update()
-        {
-            TryEnd();
+            // As the CoroutineManager class is not thread safe, ensure that Kill()
+            // is executed on the main Godot thread.
+            var godotTaskScheduler = TaskScheduler.FromCurrentSynchronizationContext();
+            Task.ContinueWith(result => Kill(), godotTaskScheduler);
         }
     }
 
@@ -52,23 +41,12 @@ namespace HCoroutines
             this.Task = task;
         }
 
-        private void TryEnd()
-        {
-            if (Task.IsCompleted)
-            {
-                Kill();
-            }
-        }
-
         public override void OnEnter()
         {
-            base.OnEnter();
-            TryEnd();
-        }
-
-        public override void Update()
-        {
-            TryEnd();
+            // As the CoroutineManager class is not thread safe, ensure that Kill()
+            // is executed on the main Godot thread.
+            var godotTaskScheduler = TaskScheduler.FromCurrentSynchronizationContext();
+            Task.ContinueWith(result => Kill(), godotTaskScheduler);
         }
     }
 }
