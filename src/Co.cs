@@ -27,6 +27,8 @@ namespace HCoroutines
 
         public static float DeltaTime => CoroutineManager.Instance.DeltaTime;
 
+        public static double DeltaTimeDouble => CoroutineManager.Instance.DeltaTimeDouble;
+
 
         public static void Run(CoroutineBase coroutine)
             => CoroutineManager.Instance.StartCoroutine(coroutine);
@@ -82,7 +84,7 @@ namespace HCoroutines
             => new WaitUntilCoroutine(condition);
 
 
-        public static WaitForSignalCoroutine WaitForSignal(Godot.Object obj, string signal)
+        public static WaitForSignalCoroutine WaitForSignal(GodotObject obj, string signal)
             => new WaitForSignalCoroutine(obj, signal);
 
 
@@ -113,7 +115,7 @@ namespace HCoroutines
             => new RepeatCoroutine(-1, coroutine => new Coroutine(creator()));
 
 
-        public static TweenCoroutine Tween(Action<SceneTreeTween> setupTween)
+        public static TweenCoroutine Tween(Action<Tween> setupTween)
             => new TweenCoroutine(setupTween);
 
 

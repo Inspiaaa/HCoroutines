@@ -1,7 +1,6 @@
 using Godot;
-using System;
 
-public class IconSpawner : Node2D
+public partial class IconSpawner : Node2D
 {
     [Export] private PackedScene icon;
 
@@ -9,9 +8,9 @@ public class IconSpawner : Node2D
     {
         if (e is InputEventMouseButton mouseEvent)
         {
-            if (mouseEvent.ButtonIndex == (int)ButtonList.Left && mouseEvent.Pressed)
+            if (mouseEvent.ButtonIndex == MouseButton.Left && mouseEvent.Pressed)
             {
-                Node2D node = icon.Instance<Node2D>();
+                Node2D node = icon.Instantiate<Node2D>();
                 node.Position = GetLocalMousePosition();
                 AddChild(node);
             }

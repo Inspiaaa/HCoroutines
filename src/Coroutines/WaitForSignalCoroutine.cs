@@ -1,3 +1,4 @@
+using Godot;
 using HCoroutines.Util;
 
 namespace HCoroutines
@@ -7,11 +8,11 @@ namespace HCoroutines
     /// </summary>
     public class WaitForSignalCoroutine : CoroutineBase
     {
-        private Godot.Object targetObject;
+        private GodotObject targetObject;
         private string targetSignal;
         private int schedulerId;
 
-        public WaitForSignalCoroutine(Godot.Object obj, string signal)
+        public WaitForSignalCoroutine(GodotObject obj, string signal)
         {
             this.targetObject = obj;
             this.targetSignal = signal;

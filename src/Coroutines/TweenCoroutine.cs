@@ -11,11 +11,11 @@ namespace HCoroutines
     /// </summary>
     public class TweenCoroutine : CoroutineBase
     {
-        private Action<SceneTreeTween> setupTween;
-        private SceneTreeTween tween;
+        private Action<Tween> setupTween;
+        private Tween tween;
         private int schedulerId;
 
-        public TweenCoroutine(Action<SceneTreeTween> setupTween)
+        public TweenCoroutine(Action<Tween> setupTween)
         {
             this.setupTween = setupTween;
         }
