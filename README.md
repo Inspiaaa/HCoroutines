@@ -170,7 +170,7 @@ Features of the `Coroutine` class:
 
 - `Coroutine` 
   
-  - `Co.Coroutine(ienumerator)`
+  - `Co.Coroutine(IEnumerator)`
   
   - Default coroutine type for running `IEnumerator`s
 
@@ -217,9 +217,9 @@ Features of the `Coroutine` class:
 
 - `AwaitCoroutine`
   
-  - `Co.Await(task)`: Awaits an async tasak
+  - `Co.Await(task)`: Awaits an async task
   
-  - `Co.Await<T>(task)`: Awaits an asnyc task that returns some value
+  - `Co.Await<T>(task)`: Awaits an async task that returns some value
 
 - `TweenCoroutine`
   
