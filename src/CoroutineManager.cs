@@ -1,20 +1,22 @@
 using Godot;
 using System;
-using System.Collections.Generic;
+using HCoroutines.Util;
 
 namespace HCoroutines;
 
 public partial class CoroutineManager : Node
 {
     public static CoroutineManager Instance { get; private set; }
+    
     public float DeltaTime { get; private set; }
     public double DeltaTimeDouble { get; private set; }
+    
+    public float PhysicsDeltaTime { get; private set; }
+    public double PhysicsDeltaTimeDouble { get; private set; }
 
-    private bool isIteratingActiveCoroutines = false;
-    private HashSet<CoroutineBase> activeCoroutines = new();
-    private HashSet<CoroutineBase> coroutinesToDeactivate = new();
-    private HashSet<CoroutineBase> coroutinesToActivate = new();
-
+    private DeferredHashSet<CoroutineBase> activeProcessCoroutines = new();
+    private DeferredHashSet<CoroutineBase> activePhysicsProcessCoroutines = new();
+    
     public void StartCoroutine(CoroutineBase coroutine)
     {
         coroutine.Manager = this;
@@ -23,27 +25,31 @@ public partial class CoroutineManager : Node
 
     public void ActivateCoroutine(CoroutineBase coroutine)
     {
-        if (isIteratingActiveCoroutines)
+        switch (coroutine.ProcessMode)
         {
-            coroutinesToActivate.Add(coroutine);
-            coroutinesToDeactivate.Remove(coroutine);
-        }
-        else
-        {
-            activeCoroutines.Add(coroutine);
+            case CoProcessMode.Normal: 
+            case CoProcessMode.Inherit:
+                activeProcessCoroutines.Add(coroutine);
+                break;
+            
+            case CoProcessMode.Physics:
+                activePhysicsProcessCoroutines.Add(coroutine);
+                break;
         }
     }
 
     public void DeactivateCoroutine(CoroutineBase coroutine)
     {
-        if (isIteratingActiveCoroutines)
+        switch (coroutine.ProcessMode)
         {
-            coroutinesToDeactivate.Add(coroutine);
-            coroutinesToActivate.Remove(coroutine);
-        }
-        else
-        {
-            activeCoroutines.Remove(coroutine);
+            case CoProcessMode.Normal: 
+            case CoProcessMode.Inherit:
+                activeProcessCoroutines.Remove(coroutine);
+                break;
+            
+            case CoProcessMode.Physics:
+                activePhysicsProcessCoroutines.Remove(coroutine);
+                break;
         }
     }
 
@@ -57,9 +63,22 @@ public partial class CoroutineManager : Node
         DeltaTime = (float)delta;
         DeltaTimeDouble = delta;
 
-        isIteratingActiveCoroutines = true;
+        UpdateCoroutines(activeProcessCoroutines);
+    }
 
-        foreach (CoroutineBase coroutine in activeCoroutines)
+    public override void _PhysicsProcess(double delta)
+    {
+        PhysicsDeltaTime = (float)delta;
+        PhysicsDeltaTimeDouble = delta;
+
+        UpdateCoroutines(activePhysicsProcessCoroutines);
+    }
+
+    private void UpdateCoroutines(DeferredHashSet<CoroutineBase> coroutines)
+    {
+        coroutines.Lock();
+
+        foreach (CoroutineBase coroutine in coroutines.Items)
         {
             if (coroutine.IsAlive && coroutine.IsPlaying)
             {
@@ -74,18 +93,6 @@ public partial class CoroutineManager : Node
             }
         }
 
-        isIteratingActiveCoroutines = false;
-
-        foreach (CoroutineBase coroutine in coroutinesToActivate)
-        {
-            activeCoroutines.Add(coroutine);
-        }
-        coroutinesToActivate.Clear();
-
-        foreach (CoroutineBase coroutine in coroutinesToDeactivate)
-        {
-            activeCoroutines.Remove(coroutine);
-        }
-        coroutinesToDeactivate.Clear();
+        coroutines.Unlock();
     }
 }

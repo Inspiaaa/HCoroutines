@@ -20,6 +20,9 @@ public class CoroutineBase
     public bool IsAlive = true;
     public bool IsPlaying = false;
 
+    // TODO: Add way to set this property.
+    public CoProcessMode ProcessMode { get; private set; }
+
     public void StartCoroutine(CoroutineBase coroutine)
     {
         coroutine.Manager = Manager;
@@ -34,7 +37,10 @@ public class CoroutineBase
     /// </summary>
     public virtual void OnEnter()
     {
-        ResumeUpdates();
+        if (this.ProcessMode == CoProcessMode.Inherit) 
+        {
+            this.ProcessMode = Parent?.ProcessMode ?? CoProcessMode.Normal;
+        }    
     }
 
     /// <summary>

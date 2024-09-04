@@ -25,8 +25,12 @@ public static class Co
         return coroutines;
     }
 
+    
     public static float DeltaTime => CoroutineManager.Instance.DeltaTime;
     public static double DeltaTimeDouble => CoroutineManager.Instance.DeltaTimeDouble;
+    
+    public static float PhysicsDeltaTime => CoroutineManager.Instance.PhysicsDeltaTime;
+    public static double PhysicsDeltaTimeDouble => CoroutineManager.Instance.PhysicsDeltaTimeDouble;
 
 
     public static void Run(CoroutineBase coroutine)
