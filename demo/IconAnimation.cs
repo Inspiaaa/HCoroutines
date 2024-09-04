@@ -1,10 +1,9 @@
 using Godot;
-using System;
 using System.Collections;
 using HCoroutines;
 using System.Threading.Tasks;
 
-public class IconAnimation : Node2D
+public partial class IconAnimation : Node2D
 {
     public override void _Ready()
     {
@@ -59,7 +58,7 @@ public class IconAnimation : Node2D
     {
         // Another way to do a tween
 
-        SceneTreeTween tween = CreateTween();
+        Tween tween = CreateTween();
         tween
             .TweenProperty(this, "modulate", targetColor, duration)
             .SetTrans(Tween.TransitionType.Expo);
