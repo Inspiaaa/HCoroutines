@@ -9,12 +9,11 @@ namespace HCoroutines;
 /// The coroutines themselves act like a doubly linked list, so that
 /// the list of children can be efficiently managed and even modified during iteration.
 /// </summary>
-public class CoroutineBase : ICoroutineStopListener
+public class CoroutineBase
 {
     public CoroutineManager Manager;
-    // TODO: Implement as event?
-    public ICoroutineStopListener StopListener;
-
+    public CoroutineBase Parent;
+    
     protected CoroutineBase firstChild, lastChild;
     protected CoroutineBase previousSibling, nextSibling;
 
@@ -23,8 +22,8 @@ public class CoroutineBase : ICoroutineStopListener
 
     public void StartCoroutine(CoroutineBase coroutine)
     {
-        coroutine.StopListener = this;
         coroutine.Manager = Manager;
+        coroutine.Parent = this;
 
         AddChild(coroutine);
         coroutine.OnEnter();
@@ -74,7 +73,7 @@ public class CoroutineBase : ICoroutineStopListener
         Manager.DeactivateCoroutine(this);
     }
 
-    public virtual void OnChildStopped(CoroutineBase child)
+    protected virtual void OnChildStopped(CoroutineBase child)
     {
         // If the parent coroutine is dead, then there is no reason to
         // manually remove the child coroutines.
@@ -114,7 +113,7 @@ public class CoroutineBase : ICoroutineStopListener
             child = child.nextSibling;
         }
 
-        StopListener?.OnChildStopped(this);
+        Parent?.OnChildStopped(this);
     }
 
     /// <summary>

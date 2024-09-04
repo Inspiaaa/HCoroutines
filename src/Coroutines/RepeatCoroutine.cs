@@ -38,7 +38,7 @@ public class RepeatCoroutine : CoroutineBase
         StartCoroutine(coroutine);
     }
 
-    public override void OnChildStopped(CoroutineBase child)
+    protected override void OnChildStopped(CoroutineBase child)
     {
         base.OnChildStopped(child);
 

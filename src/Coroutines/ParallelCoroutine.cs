@@ -26,7 +26,7 @@ public class ParallelCoroutine : CoroutineBase
         }
     }
 
-    public override void OnChildStopped(CoroutineBase child)
+    protected override void OnChildStopped(CoroutineBase child)
     {
         base.OnChildStopped(child);
 

@@ -25,7 +25,7 @@ public class SequentialCoroutine : CoroutineBase
         StartCoroutine(coroutines[0]);
     }
 
-    public override void OnChildStopped(CoroutineBase child)
+    protected override void OnChildStopped(CoroutineBase child)
     {
         base.OnChildStopped(child);
 
