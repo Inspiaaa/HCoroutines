@@ -1,28 +1,21 @@
 using HCoroutines.Util;
 
-namespace HCoroutines
+namespace HCoroutines;
+
+/// <summary>
+/// Waits until a certain delay has passed.
+/// </summary>
+public class WaitDelayCoroutine : CoroutineBase
 {
-    /// <summary>
-    /// Waits until a certain delay has passed.
-    /// </summary>
-    public class WaitDelayCoroutine : CoroutineBase
+    private readonly float delay;
+
+    public WaitDelayCoroutine(float delay)
     {
-        private float delay;
-        private int schedulerId;
+        this.delay = delay;
+    }
 
-        public WaitDelayCoroutine(float delay)
-        {
-            this.delay = delay;
-        }
-
-        public override void OnEnter()
-        {
-            schedulerId = TimeScheduler.Instance.Schedule(Kill, delay);
-        }
-
-        public override void OnExit()
-        {
-            TimeScheduler.Instance.CancelSchedule(schedulerId);
-        }
+    public override void OnEnter()
+    {
+        Manager.GetTree().CreateTimer(delay).Timeout += Kill;
     }
 }

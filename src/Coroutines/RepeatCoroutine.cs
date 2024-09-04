@@ -1,54 +1,53 @@
 using System;
 
-namespace HCoroutines
+namespace HCoroutines;
+
+/// <summary>
+/// Runs a coroutine multiple times. Each time the coroutine is finished,
+/// it is restarted.
+/// </summary>
+public class RepeatCoroutine : CoroutineBase
 {
-    /// <summary>
-    /// Runs a coroutine multiple times. Each time the coroutine is finished,
-    /// it is restarted.
-    /// </summary>
-    public class RepeatCoroutine : CoroutineBase
+    private readonly int repeatTimes;
+    private int currentRepeatCount;
+    private readonly Func<RepeatCoroutine, CoroutineBase> coroutineCreator;
+
+    private bool IsInfinite => repeatTimes == -1;
+
+    public RepeatCoroutine(int repeatTimes, Func<RepeatCoroutine, CoroutineBase> coroutineCreator)
     {
-        private int repeatTimes;
-        private int currentRepeatCount;
-        private Func<RepeatCoroutine, CoroutineBase> coroutineCreator;
+        this.repeatTimes = repeatTimes;
+        this.coroutineCreator = coroutineCreator;
+    }
 
-        private bool IsInfinite => repeatTimes == -1;
-
-        public RepeatCoroutine(int repeatTimes, Func<RepeatCoroutine, CoroutineBase> coroutineCreator)
+    public override void OnEnter()
+    {
+        if (repeatTimes == 0)
         {
-            this.repeatTimes = repeatTimes;
-            this.coroutineCreator = coroutineCreator;
+            Kill();
+            return;
         }
 
-        public override void OnEnter()
-        {
-            if (repeatTimes == 0)
-            {
-                Kill();
-                return;
-            }
+        Repeat();
+    }
 
-            Repeat();
+    private void Repeat()
+    {
+        currentRepeatCount += 1;
+        CoroutineBase coroutine = coroutineCreator.Invoke(this);
+        StartCoroutine(coroutine);
+    }
+
+    public override void OnChildStopped(CoroutineBase child)
+    {
+        base.OnChildStopped(child);
+
+        if (!IsInfinite && currentRepeatCount > repeatTimes)
+        {
+            Kill();
+            return;
         }
 
-        private void Repeat()
-        {
-            currentRepeatCount += 1;
-            CoroutineBase coroutine = coroutineCreator.Invoke(this);
-            StartCoroutine(coroutine);
-        }
-
-        public override void OnChildStopped(CoroutineBase child)
-        {
-            base.OnChildStopped(child);
-
-            if (!IsInfinite && currentRepeatCount > repeatTimes)
-            {
-                Kill();
-                return;
-            }
-
-            Repeat();
-        }
+        Repeat();
     }
 }

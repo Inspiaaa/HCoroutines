@@ -1,30 +1,24 @@
+using Godot;
 using HCoroutines.Util;
 
-namespace HCoroutines
+namespace HCoroutines;
+
+/// <summary>
+/// Waits until a certain signal has been fired.
+/// </summary>
+public class WaitForSignalCoroutine : CoroutineBase
 {
-    /// <summary>
-    /// Waits until a certain signal has been fired.
-    /// </summary>
-    public class WaitForSignalCoroutine : CoroutineBase
+    private readonly GodotObject targetObject;
+    private readonly string targetSignal;
+    private int schedulerId;
+
+    public WaitForSignalCoroutine(GodotObject obj, string signal)
     {
-        private Godot.Object targetObject;
-        private string targetSignal;
-        private int schedulerId;
+        this.targetObject = obj;
+        this.targetSignal = signal;
+    }
 
-        public WaitForSignalCoroutine(Godot.Object obj, string signal)
-        {
-            this.targetObject = obj;
-            this.targetSignal = signal;
-        }
-
-        public override void OnEnter()
-        {
-            schedulerId = TimeScheduler.Instance.ScheduleOnSignal(Kill, targetObject, targetSignal);
-        }
-
-        public override void OnExit()
-        {
-            TimeScheduler.Instance.CancelSchedule(schedulerId);
-        }
+    public override void OnEnter() {
+        Manager.ToSignal(targetObject, targetSignal).OnCompleted(Kill);
     }
 }

@@ -1,36 +1,35 @@
 using System;
 
-namespace HCoroutines
+namespace HCoroutines;
+
+/// <summary>
+/// Waits while a certain condition is true.
+/// </summary>
+public class WaitWhileCoroutine : CoroutineBase
 {
-    /// <summary>
-    /// Waits while a certain condition is true.
-    /// </summary>
-    public class WaitWhileCoroutine : CoroutineBase
+    private readonly Func<Boolean> condition;
+
+    public WaitWhileCoroutine(Func<Boolean> condition)
     {
-        private Func<Boolean> condition;
+        this.condition = condition;
+    }
 
-        public WaitWhileCoroutine(Func<Boolean> condition)
-        {
-            this.condition = condition;
-        }
+    public override void OnEnter()
+    {
+        CheckCondition();
+        if (IsAlive) ResumeUpdates();
+    }
 
-        public override void OnEnter()
-        {
-            CheckCondition();
-            if (isAlive) ResumeUpdates();
-        }
+    public override void Update()
+    {
+        CheckCondition();
+    }
 
-        public override void Update()
+    private void CheckCondition()
+    {
+        if (!condition())
         {
-            CheckCondition();
-        }
-
-        private void CheckCondition()
-        {
-            if (!this.condition())
-            {
-                Kill();
-            }
+            Kill();
         }
     }
 }

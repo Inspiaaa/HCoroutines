@@ -2,89 +2,90 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-namespace HCoroutines
+namespace HCoroutines;
+
+public partial class CoroutineManager : Node
 {
-    public class CoroutineManager : Node
+    public static CoroutineManager Instance { get; private set; }
+    public float DeltaTime { get; private set; }
+    public double DeltaTimeDouble { get; private set; }
+
+    private bool isIteratingActiveCoroutines = false;
+    private HashSet<CoroutineBase> activeCoroutines = new();
+    private HashSet<CoroutineBase> coroutinesToDeactivate = new();
+    private HashSet<CoroutineBase> coroutinesToActivate = new();
+
+    public void StartCoroutine(CoroutineBase coroutine)
     {
-        public static CoroutineManager Instance { get; private set; }
-        public float DeltaTime { get; set; }
+        coroutine.Manager = this;
+        coroutine.OnEnter();
+    }
 
-        private bool isIteratingActiveCoroutines = false;
-        private HashSet<CoroutineBase> activeCoroutines = new HashSet<CoroutineBase>();
-        private HashSet<CoroutineBase> coroutinesToDeactivate = new HashSet<CoroutineBase>();
-        private HashSet<CoroutineBase> coroutinesToActivate = new HashSet<CoroutineBase>();
-
-        public void StartCoroutine(CoroutineBase coroutine)
+    public void ActivateCoroutine(CoroutineBase coroutine)
+    {
+        if (isIteratingActiveCoroutines)
         {
-            coroutine.manager = this;
-            coroutine.OnEnter();
+            coroutinesToActivate.Add(coroutine);
+            coroutinesToDeactivate.Remove(coroutine);
         }
-
-        public void ActivateCoroutine(CoroutineBase coroutine)
+        else
         {
-            if (isIteratingActiveCoroutines)
-            {
-                coroutinesToActivate.Add(coroutine);
-                coroutinesToDeactivate.Remove(coroutine);
-            }
-            else
-            {
-                activeCoroutines.Add(coroutine);
-            }
+            activeCoroutines.Add(coroutine);
         }
+    }
 
-        public void DeactivateCoroutine(CoroutineBase coroutine)
+    public void DeactivateCoroutine(CoroutineBase coroutine)
+    {
+        if (isIteratingActiveCoroutines)
         {
-            if (isIteratingActiveCoroutines)
-            {
-                coroutinesToDeactivate.Add(coroutine);
-                coroutinesToActivate.Remove(coroutine);
-            }
-            else
-            {
-                activeCoroutines.Remove(coroutine);
-            }
+            coroutinesToDeactivate.Add(coroutine);
+            coroutinesToActivate.Remove(coroutine);
         }
-
-        public override void _EnterTree()
+        else
         {
-            Instance = this;
+            activeCoroutines.Remove(coroutine);
         }
+    }
 
-        public override void _Process(float delta)
+    public override void _EnterTree()
+    {
+        Instance = this;
+    }
+
+    public override void _Process(double delta)
+    {
+        DeltaTime = (float)delta;
+        DeltaTimeDouble = delta;
+
+        isIteratingActiveCoroutines = true;
+
+        foreach (CoroutineBase coroutine in activeCoroutines)
         {
-            DeltaTime = delta;
-
-            isIteratingActiveCoroutines = true;
-
-            foreach (CoroutineBase coroutine in activeCoroutines)
+            if (coroutine.IsAlive && coroutine.IsPlaying)
             {
-                if (coroutine.isAlive && coroutine.isPlaying)
+                try
                 {
-                    try
-                    {
-                        coroutine.Update();
-                    }
-                    catch (Exception e)
-                    {
-                        GD.PrintErr(e.ToString());
-                    }
+                    coroutine.Update();
+                }
+                catch (Exception e)
+                {
+                    GD.PrintErr(e.ToString());
                 }
             }
-
-            isIteratingActiveCoroutines = false;
-
-            foreach (CoroutineBase coroutine in coroutinesToActivate)
-            {
-                activeCoroutines.Add(coroutine);
-            }
-            coroutinesToActivate.Clear();
-
-            foreach (CoroutineBase coroutine in coroutinesToDeactivate)
-            {
-                activeCoroutines.Remove(coroutine);
-            }
-            coroutinesToDeactivate.Clear();
         }
+
+        isIteratingActiveCoroutines = false;
+
+        foreach (CoroutineBase coroutine in coroutinesToActivate)
+        {
+            activeCoroutines.Add(coroutine);
+        }
+        coroutinesToActivate.Clear();
+
+        foreach (CoroutineBase coroutine in coroutinesToDeactivate)
+        {
+            activeCoroutines.Remove(coroutine);
+        }
+        coroutinesToDeactivate.Clear();
     }
 }

@@ -1,40 +1,39 @@
-namespace HCoroutines
+namespace HCoroutines;
+
+/// <summary>
+/// Runs multiple coroutines in parallel and exits once all have completed.
+/// </summary>
+public class ParallelCoroutine : CoroutineBase
 {
-    /// <summary>
-    /// Runs multiple coroutines in parallel and exits once all have completed.
-    /// </summary>
-    public class ParallelCoroutine : CoroutineBase
+    private readonly CoroutineBase[] coroutines;
+
+    public ParallelCoroutine(params CoroutineBase[] coroutines)
     {
-        private CoroutineBase[] coroutines;
+        this.coroutines = coroutines;
+    }
 
-        public ParallelCoroutine(params CoroutineBase[] coroutines)
+    public override void OnEnter()
+    {
+        if (coroutines.Length == 0)
         {
-            this.coroutines = coroutines;
+            Kill();
+            return;
         }
 
-        public override void OnEnter()
+        foreach (CoroutineBase coroutine in coroutines)
         {
-            if (coroutines.Length == 0)
-            {
-                Kill();
-                return;
-            }
-
-            foreach (CoroutineBase coroutine in coroutines)
-            {
-                StartCoroutine(coroutine);
-            }
+            StartCoroutine(coroutine);
         }
+    }
 
-        public override void OnChildStopped(CoroutineBase child)
+    public override void OnChildStopped(CoroutineBase child)
+    {
+        base.OnChildStopped(child);
+
+        // If there are no more actively running coroutines, stop.
+        if (firstChild == null)
         {
-            base.OnChildStopped(child);
-
-            // If there are no more actively running coroutines, stop.
-            if (firstChild == null)
-            {
-                Kill();
-            }
+            Kill();
         }
     }
 }
