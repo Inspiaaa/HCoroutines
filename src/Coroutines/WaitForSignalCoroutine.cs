@@ -9,7 +9,6 @@ public class WaitForSignalCoroutine : CoroutineBase
 {
     private readonly GodotObject targetObject;
     private readonly string targetSignal;
-    private int schedulerId;
 
     public WaitForSignalCoroutine(GodotObject obj, string signal)
     {

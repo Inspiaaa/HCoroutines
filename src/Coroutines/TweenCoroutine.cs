@@ -12,7 +12,6 @@ public class TweenCoroutine : CoroutineBase
 {
     private readonly Func<Tween> createTween;
     private Tween tween;
-    private int schedulerId;
 
     public TweenCoroutine(Func<Tween> createTween)
     {
