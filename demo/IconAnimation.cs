@@ -34,10 +34,12 @@ public partial class IconAnimation : Node2D
 
     private CoroutineBase MoveToPosition(Vector2 targetPos, float duration)
     {
-        return Co.Tween(tween => {
+        return Co.Tween(() => {
+            var tween = CreateTween();
             tween
                 .TweenProperty(this, "position", targetPos, duration)
                 .SetTrans(Tween.TransitionType.Cubic);
+            return tween;
         });
     }
 
