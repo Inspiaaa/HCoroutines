@@ -25,32 +25,20 @@ public partial class CoroutineManager : Node
 
     public void ActivateCoroutine(CoroutineBase coroutine)
     {
-        switch (coroutine.ProcessMode)
-        {
-            case CoProcessMode.Normal: 
-            case CoProcessMode.Inherit:
-                activeProcessCoroutines.Add(coroutine);
-                break;
-            
-            case CoProcessMode.Physics:
-                activePhysicsProcessCoroutines.Add(coroutine);
-                break;
-        }
+        GetUpdatePoolOfCoroutine(coroutine).Add(coroutine);
     }
 
     public void DeactivateCoroutine(CoroutineBase coroutine)
     {
-        switch (coroutine.ProcessMode)
-        {
-            case CoProcessMode.Normal: 
-            case CoProcessMode.Inherit:
-                activeProcessCoroutines.Remove(coroutine);
-                break;
-            
-            case CoProcessMode.Physics:
-                activePhysicsProcessCoroutines.Remove(coroutine);
-                break;
-        }
+        GetUpdatePoolOfCoroutine(coroutine).Remove(coroutine);
+    }
+
+    private DeferredHashSet<CoroutineBase> GetUpdatePoolOfCoroutine(CoroutineBase coroutine)
+    {
+        return coroutine.ProcessMode switch {
+            CoProcessMode.Normal or CoProcessMode.Inherit => activeProcessCoroutines,
+            CoProcessMode.Physics => activePhysicsProcessCoroutines
+        };
     }
 
     public override void _EnterTree()
