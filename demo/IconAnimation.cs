@@ -8,10 +8,10 @@ public partial class IconAnimation : Node2D
 {
     public override void _Ready()
     {
-        Co.Run(DoAnimation());
+        Co.Run(PlayAnimation());
     }
 
-    private IEnumerator DoAnimation()
+    private IEnumerator PlayAnimation()
     {
         yield return MoveToPosition(new Vector2(0, 0), 2);
 
@@ -34,13 +34,10 @@ public partial class IconAnimation : Node2D
 
     private CoroutineBase MoveToPosition(Vector2 targetPos, float duration)
     {
-        return Co.Tween(() => {
-            var tween = CreateTween();
-            tween
-                .TweenProperty(this, "position", targetPos, duration)
-                .SetTrans(Tween.TransitionType.Cubic);
-            return tween;
-        });
+        return Co.Tween(tween => tween
+            .TweenProperty(this, "position", targetPos, duration)
+            .SetTrans(Tween.TransitionType.Cubic)
+        );
     }
 
     private IEnumerator FullRotation(float duration)
