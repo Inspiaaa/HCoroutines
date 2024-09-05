@@ -2,6 +2,7 @@ using Godot;
 using System;
 
 namespace HCoroutines;
+
 /// <summary>
 /// Base class of all coroutines that allows for pausing / resuming / killing / ... the coroutine.
 /// It is also responsible for managing the hierarchical structure and organisation
@@ -21,6 +22,10 @@ public class CoroutineBase
     public bool IsPlaying = false;
 
     // TODO: Add way to set this property.
+    
+    /// <summary>
+    /// Determines whether the Update() method is called during process frames or physics frames.
+    /// </summary>
     public CoProcessMode ProcessMode { get; private set; }
 
     public void StartCoroutine(CoroutineBase coroutine)
