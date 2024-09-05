@@ -12,9 +12,6 @@ public class TweenCoroutine : CoroutineBase
 {
     private readonly Action<Tween> setupTween;
     private Tween tween;
-
-    // TODO: Create additional methods for creating Tween Coroutines (e.g. create Tween on Manager, setup via Action,
-    //       or bound to a node)
     
     public TweenCoroutine(Action<Tween> setupTween, CoRunMode runMode = CoRunMode.Inherit)
         : base(CoProcessMode.Inherit, runMode)
