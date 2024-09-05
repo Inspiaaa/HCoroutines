@@ -45,6 +45,12 @@ public class CoroutineBase
         coroutine.Init();
     }
 
+    public CoroutineBase(CoProcessMode processMode, CoRunMode runMode)
+    {
+        this.ProcessMode = processMode;
+        this.RunMode = runMode;
+    }
+    
     /// <summary>
     /// Initializes the coroutine once it has been added to the active coroutine hierarchy.
     /// </summary>
