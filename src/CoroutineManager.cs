@@ -49,6 +49,7 @@ public partial class CoroutineManager : Node
     public override void _EnterTree()
     {
         Instance = this;
+        ProcessMode = ProcessModeEnum.Always;
         IsPaused = GetTree().Paused;
     }
 
