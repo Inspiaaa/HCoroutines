@@ -24,7 +24,6 @@ public class CoroutineBase
 
     private bool hasCalledStart = false;
     private bool wasReceivingUpdatesBeforePause = false;
-
     
     /// <summary>
     /// Determines whether the Update() method is called during process frames or physics frames.
@@ -35,7 +34,15 @@ public class CoroutineBase
     /// Determines the pause behaviour of this coroutine.
     /// </summary>
     public CoRunMode RunMode { get; private set; }
+    
+    // The ProcessMode and RunMode fields should be treated as readonly, as they are not and should not be changed
+    // after construction of the coroutine. They are not declared as readonly, as the `Inherit` mode has to be
+    // translated into an actual mode, which is only known when the coroutine is added to the hierarchy, not when
+    // the constructor is called.
 
+    /// <summary>
+    /// Event that is fired when this coroutine is killed (stops).
+    /// </summary>
     public event Action Stopped;
     
     public void StartCoroutine(CoroutineBase coroutine)
@@ -97,6 +104,9 @@ public class CoroutineBase
     
     // Coroutine execution events:
     
+    /// <summary>
+    /// Called after OnEnter() if the coroutine is running or as soon as it is unpaused.
+    /// </summary>
     protected virtual void OnStart() { }
 
     /// <summary>
@@ -123,6 +133,7 @@ public class CoroutineBase
     
     /// <summary>
     /// Called every frame if the coroutine is playing.
+    /// The ProcessMode determines whether it is run in _Process() or _PhysicsProcess().
     /// </summary>
     public virtual void Update() { }
 
@@ -152,6 +163,9 @@ public class CoroutineBase
         Manager.DeactivateCoroutine(this);
     }
 
+    /// <summary>
+    /// Called when one of the child coroutines stops / finishes.
+    /// </summary>
     protected virtual void OnChildStopped(CoroutineBase child)
     {
         // If the parent coroutine is dead, then there is no reason to
@@ -246,13 +260,13 @@ public class CoroutineBase
     public void OnGamePausedChanged(bool isGamePaused)
     {
         UpdateRunState(isGamePaused);
-        UpdateChildrenAboutPausedChanged(isGamePaused);
+        NotifyChildrenAboutPausedChanged(isGamePaused);
     }
 
     /// <summary>
     /// Informs the child coroutines that the game has been paused / unpaused.
     /// </summary>
-    private void UpdateChildrenAboutPausedChanged(bool isGamePaused)
+    private void NotifyChildrenAboutPausedChanged(bool isGamePaused)
     {
         CoroutineBase child = firstChild;
         while (child != null)

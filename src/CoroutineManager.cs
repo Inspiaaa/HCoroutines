@@ -21,6 +21,9 @@ public partial class CoroutineManager : Node
     private DeferredHashSet<CoroutineBase> activePhysicsProcessCoroutines = new();
     private HashSet<CoroutineBase> aliveRootCoroutines = new();
     
+    /// <summary>
+    /// Starts and initializes the given coroutine.
+    /// </summary>
     public void StartCoroutine(CoroutineBase coroutine)
     {
         coroutine.Manager = this;
@@ -29,11 +32,17 @@ public partial class CoroutineManager : Node
         aliveRootCoroutines.Add(coroutine);
     }
 
+    /// <summary>
+    /// Enables Update() calls to the coroutine.
+    /// </summary>
     public void ActivateCoroutine(CoroutineBase coroutine)
     {
         GetUpdatePoolOfCoroutine(coroutine).Add(coroutine);
     }
 
+    /// <summary>
+    /// Disables Update() calls to the coroutine.
+    /// </summary>
     public void DeactivateCoroutine(CoroutineBase coroutine)
     {
         GetUpdatePoolOfCoroutine(coroutine).Remove(coroutine);

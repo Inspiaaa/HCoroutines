@@ -5,7 +5,8 @@ namespace HCoroutines;
 /// <summary>
 /// A coroutine that waits until an asynchronous task has been completed.
 /// If the coroutine is killed before completion, the async task
-/// will currently *not* be canceled.
+/// will currently *not* be canceled. The execution of the async task is
+/// also *not* affected by the pause mode.
 /// </summary>
 public class AwaitCoroutine<T> : CoroutineBase
 {
