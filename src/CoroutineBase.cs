@@ -18,8 +18,8 @@ public class CoroutineBase
     protected CoroutineBase firstChild, lastChild;
     protected CoroutineBase previousSibling, nextSibling;
 
-    public bool IsAlive = true;
-    public bool IsPlaying = false;
+    public bool IsAlive { get; private set; } = true;
+    public bool IsPlaying { get; private set; } = false;
 
     // TODO: Add way to set this property.
     
