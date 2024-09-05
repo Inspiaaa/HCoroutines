@@ -13,9 +13,9 @@ namespace HCoroutines;
 /// </summary>
 public static class Co
 {
-    private static Coroutine[] GetCoroutines(IEnumerator[] enumerators)
+    private static CoroutineBase[] GetCoroutines(IEnumerator[] enumerators)
     {
-        Coroutine[] coroutines = new Coroutine[enumerators.Length];
+        CoroutineBase[] coroutines = new CoroutineBase[enumerators.Length];
 
         for (int i = 0; i < enumerators.Length; i++)
         {
