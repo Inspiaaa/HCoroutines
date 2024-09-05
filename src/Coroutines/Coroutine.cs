@@ -33,7 +33,7 @@ public class Coroutine : CoroutineBase
             return;
         }
 
-        ResumeUpdates();
+        EnableUpdates();
     }
 
     public override void Update()
@@ -60,7 +60,7 @@ public class Coroutine : CoroutineBase
             // Otherwise, if the child coroutine instantly terminates, which would
             // lead to this coroutine resuming, it would pause this coroutine.
             // That would not be correct.
-            PauseUpdates();
+            DisableUpdates();
             StartCoroutine(childCoroutine);
             return;
         }
@@ -69,7 +69,7 @@ public class Coroutine : CoroutineBase
         // and pause until it is finished
         if (obj is IEnumerator childEnumerator)
         {
-            PauseUpdates();
+            DisableUpdates();
             StartCoroutine(new Coroutine(childEnumerator));
             return;
         }
@@ -78,6 +78,6 @@ public class Coroutine : CoroutineBase
     protected override void OnChildStopped(CoroutineBase child)
     {
         base.OnChildStopped(child);
-        ResumeUpdates();
+        EnableUpdates();
     }
 }

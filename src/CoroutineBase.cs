@@ -19,7 +19,10 @@ public class CoroutineBase
     protected CoroutineBase previousSibling, nextSibling;
 
     public bool IsAlive { get; private set; } = true;
-    public bool IsPlaying { get; private set; } = false;
+    public bool ShouldReceiveUpdates { get; private set; } = false;
+
+    private bool hasCalledStart = false;
+    private bool wasReceivingUpdatesBeforePause = false;
 
     // TODO: Add way to set this property.
     
@@ -47,6 +50,26 @@ public class CoroutineBase
     /// </summary>
     public void Init()
     {
+        InheritModesFromParent();
+        
+        OnEnter();
+
+        if (IsAlive)
+        {
+            if (!Manager.IsPaused)
+            {
+                hasCalledStart = true;
+                OnStart();
+            }
+            else
+            {
+                hasCalledStart = false; 
+            }
+        }
+    }
+
+    private void InheritModesFromParent()
+    {
         if (this.ProcessMode == CoProcessMode.Inherit) 
         {
             this.ProcessMode = Parent?.ProcessMode ?? CoProcessMode.Normal;
@@ -56,38 +79,66 @@ public class CoroutineBase
         {
             this.RunMode = Parent?.RunMode ?? CoRunMode.Pausable;
         }
-        
-        OnEnter();
     }
+    
+    
+    // Coroutine lifecycle events:
 
     /// <summary>
-    /// Called when the coroutine starts.
+    /// Called when the coroutine enters the active coroutine hierarchy.
     /// </summary>
     protected virtual void OnEnter() { }
 
+    /// <summary>
+    /// Called when the coroutine is killed.
+    /// </summary>
+    protected virtual void OnExit() { }
+    
+    
+    // Coroutine execution events:
+    
+    protected virtual void OnStart() { }
+
+    /// <summary>
+    /// Called when this coroutine is paused, which happens (depending on the RunMode) when the game is paused.
+    /// By default, this method disables updates to the coroutine.
+    /// </summary>
+    protected virtual void OnPause()
+    {
+        wasReceivingUpdatesBeforePause = ShouldReceiveUpdates;
+        DisableUpdates();
+    }
+
+    /// <summary>
+    /// Called when this coroutine is unpaused, which happens (depending on the RunMode) when the game is unpaused.
+    /// By default, this method re-enables updates to the coroutine if they were enabled before pausing.
+    /// </summary>
+    protected virtual void OnResume()
+    {
+        if (wasReceivingUpdatesBeforePause)
+        {
+            EnableUpdates();
+        }
+    }
+    
     /// <summary>
     /// Called every frame if the coroutine is playing.
     /// </summary>
     public virtual void Update() { }
 
     /// <summary>
-    /// Called when the coroutine is killed.
-    /// </summary>
-    protected virtual void OnExit() { }
-
-    /// <summary>
     /// Starts playing this coroutine, meaning that it will receive Update() calls
     /// each frame. This is independent of the child coroutines.
     /// This method only works if the coroutine is still alive.
     /// </summary>
-    protected void ResumeUpdates()
+    protected void EnableUpdates()
     {
         if (!IsAlive)
         {
-            throw new InvalidOperationException("Cannot resume updates on dead coroutine.");
+            throw new InvalidOperationException("Cannot enable updates on a dead coroutine.");
         }
 
-        IsPlaying = true;
+        ShouldReceiveUpdates = true;
         Manager.ActivateCoroutine(this);
     }
 
@@ -95,9 +146,9 @@ public class CoroutineBase
     /// Stops giving the coroutine Update() calls each frame.
     /// This is independent of the child coroutines.
     /// </summary>
-    protected void PauseUpdates()
+    protected void DisableUpdates()
     {
-        IsPlaying = false;
+        ShouldReceiveUpdates = false;
         Manager.DeactivateCoroutine(this);
     }
 
@@ -185,6 +236,17 @@ public class CoroutineBase
         if (lastChild == coroutine)
         {
             lastChild = coroutine.previousSibling;
+        }
+    }
+    
+    public void OnGamePausedChanged(bool isGamePaused)
+    {
+        CoroutineBase child = firstChild;
+        while (child != null)
+        {
+            child.OnGamePausedChanged(isGamePaused);
+            
+            child = child.nextSibling;
         }
     }
 }

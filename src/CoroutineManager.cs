@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 using HCoroutines.Util;
 
 namespace HCoroutines;
@@ -14,13 +15,17 @@ public partial class CoroutineManager : Node
     public float PhysicsDeltaTime { get; private set; }
     public double PhysicsDeltaTimeDouble { get; private set; }
 
+    public bool IsPaused { get; private set; }
+
     private DeferredHashSet<CoroutineBase> activeProcessCoroutines = new();
     private DeferredHashSet<CoroutineBase> activePhysicsProcessCoroutines = new();
+    private HashSet<CoroutineBase> aliveRootCoroutines = new();
     
     public void StartCoroutine(CoroutineBase coroutine)
     {
         coroutine.Manager = this;
         coroutine.Init();
+        aliveRootCoroutines.Add(coroutine);
     }
 
     public void ActivateCoroutine(CoroutineBase coroutine)
@@ -44,12 +49,14 @@ public partial class CoroutineManager : Node
     public override void _EnterTree()
     {
         Instance = this;
+        IsPaused = GetTree().Paused;
     }
 
     public override void _Process(double delta)
     {
         DeltaTime = (float)delta;
         DeltaTimeDouble = delta;
+        SetGamePaused(GetTree().Paused);
 
         UpdateCoroutines(activeProcessCoroutines);
     }
@@ -68,7 +75,7 @@ public partial class CoroutineManager : Node
 
         foreach (CoroutineBase coroutine in coroutines.Items)
         {
-            if (coroutine.IsAlive && coroutine.IsPlaying)
+            if (coroutine.IsAlive && coroutine.ShouldReceiveUpdates)
             {
                 try
                 {
@@ -82,5 +89,20 @@ public partial class CoroutineManager : Node
         }
 
         coroutines.Unlock();
+    }
+
+    private void SetGamePaused(bool isPaused)
+    {
+        if (this.IsPaused == isPaused)
+        {
+            return;
+        }
+
+        this.IsPaused = isPaused;
+
+        foreach (CoroutineBase coroutine in aliveRootCoroutines)
+        {
+            coroutine.OnGamePausedChanged(isPaused);
+        }
     }
 }
