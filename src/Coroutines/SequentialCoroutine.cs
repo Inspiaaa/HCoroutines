@@ -14,6 +14,14 @@ public class SequentialCoroutine : CoroutineBase
     private bool isSwitchToNextCoroutinePending = false;
 
     public SequentialCoroutine(params CoroutineBase[] coroutines)
+        : this(CoProcessMode.Inherit, CoRunMode.Inherit, coroutines) { }
+    
+    public SequentialCoroutine(
+        CoProcessMode processMode, 
+        CoRunMode runMode,
+        params CoroutineBase[] coroutines
+    )
+        : base(processMode, runMode)
     {
         this.coroutines = coroutines;
     }

@@ -10,7 +10,8 @@ public class WaitForSignalCoroutine : CoroutineBase
     private readonly GodotObject targetObject;
     private readonly string targetSignal;
 
-    public WaitForSignalCoroutine(GodotObject obj, string signal)
+    public WaitForSignalCoroutine(GodotObject obj, string signal) 
+        : base(CoProcessMode.Inherit, CoRunMode.Inherit)
     {
         this.targetObject = obj;
         this.targetSignal = signal;

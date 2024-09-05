@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 
 namespace HCoroutines;
@@ -14,14 +13,14 @@ public class Coroutine : CoroutineBase
 {
     private readonly IEnumerator routine;
 
-    public Coroutine(IEnumerator routine)
+    public Coroutine(
+        IEnumerator routine, 
+        CoProcessMode processMode = CoProcessMode.Inherit, 
+        CoRunMode runMode = CoRunMode.Inherit
+    ) 
+        : base(processMode, runMode)
     {
         this.routine = routine;
-    }
-
-    public Coroutine(Func<Coroutine, IEnumerator> creator)
-    {
-        this.routine = creator(this);
     }
 
     protected override void OnEnter()

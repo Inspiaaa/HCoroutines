@@ -13,7 +13,8 @@ public class TweenCoroutine : CoroutineBase
     private readonly Func<Tween> createTween;
     private Tween tween;
 
-    public TweenCoroutine(Func<Tween> createTween)
+    public TweenCoroutine(Func<Tween> createTween, CoRunMode runMode = CoRunMode.Inherit)
+        : base(CoProcessMode.Inherit, runMode)
     {
         this.createTween = createTween;
     }

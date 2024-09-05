@@ -25,7 +25,6 @@ public class CoroutineBase
     private bool hasCalledStart = false;
     private bool wasReceivingUpdatesBeforePause = false;
 
-    // TODO: Add way to set this property.
     
     /// <summary>
     /// Determines whether the Update() method is called during process frames or physics frames.

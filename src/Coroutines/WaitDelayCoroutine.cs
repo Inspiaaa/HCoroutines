@@ -7,7 +7,8 @@ public class WaitDelayCoroutine : CoroutineBase
 {
     private readonly float delay;
 
-    public WaitDelayCoroutine(float delay)
+    public WaitDelayCoroutine(float delay, CoRunMode runMode = CoRunMode.Inherit)
+        : base(CoProcessMode.Inherit, runMode)
     {
         this.delay = delay;
     }
@@ -15,6 +16,7 @@ public class WaitDelayCoroutine : CoroutineBase
     protected override void OnEnter()
     {
         // TODO: Implement pause logic.
+        // TODO: Expose option to use timescale
         Manager.GetTree().CreateTimer(delay).Timeout += Kill;
     }
 }

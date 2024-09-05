@@ -9,7 +9,12 @@ public class WaitUntilCoroutine : CoroutineBase
 {
     private readonly Func<Boolean> condition;
 
-    public WaitUntilCoroutine(Func<Boolean> condition)
+    public WaitUntilCoroutine(
+        Func<Boolean> condition, 
+        CoProcessMode processMode = CoProcessMode.Inherit, 
+        CoRunMode runMode = CoRunMode.Inherit
+    )
+        : base(processMode, runMode)
     {
         this.condition = condition;
     }
