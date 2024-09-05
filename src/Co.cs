@@ -120,6 +120,12 @@ public static class Co
 
     public static WaitDelayCoroutine Wait(float delay, bool ignoreTimeScale = false, CoRunMode runMode = CoRunMode.Inherit)
         => new WaitDelayCoroutine(delay, ignoreTimeScale, runMode);
+    
+    public static WaitDelayCoroutine Sleep(float delay, bool ignoreTimeScale = false, CoRunMode runMode = CoRunMode.Inherit)
+        => new WaitDelayCoroutine(delay, ignoreTimeScale, runMode);
+    
+    public static WaitDelayCoroutine Delay(float delay, bool ignoreTimeScale = false, CoRunMode runMode = CoRunMode.Inherit)
+        => new WaitDelayCoroutine(delay, ignoreTimeScale, runMode);
 
 
     public static WaitWhileCoroutine WaitWhile(
