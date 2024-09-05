@@ -10,7 +10,7 @@ public class RepeatCoroutine : CoroutineBase
 {
     private readonly int repeatTimes;
     private int currentRepeatCount;
-    private readonly Func<RepeatCoroutine, CoroutineBase> coroutineCreator;
+    private readonly Func<CoroutineBase> coroutineCreator;
 
     private bool IsInfinite => repeatTimes == -1;
 
@@ -21,6 +21,18 @@ public class RepeatCoroutine : CoroutineBase
     public RepeatCoroutine(
         int repeatTimes, 
         Func<RepeatCoroutine, CoroutineBase> coroutineCreator,
+        CoProcessMode processMode = CoProcessMode.Inherit, 
+        CoRunMode runMode = CoRunMode.Inherit
+    )
+        : base(processMode, runMode)
+    {
+        this.repeatTimes = repeatTimes;
+        this.coroutineCreator = () => coroutineCreator(this);
+    }
+    
+    public RepeatCoroutine(
+        int repeatTimes, 
+        Func<CoroutineBase> coroutineCreator,
         CoProcessMode processMode = CoProcessMode.Inherit, 
         CoRunMode runMode = CoRunMode.Inherit
     )
@@ -46,7 +58,7 @@ public class RepeatCoroutine : CoroutineBase
     private void Repeat()
     {
         currentRepeatCount += 1;
-        CoroutineBase coroutine = coroutineCreator.Invoke(this);
+        CoroutineBase coroutine = coroutineCreator();
         StartCoroutine(coroutine);
     }
 

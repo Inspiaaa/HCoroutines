@@ -10,18 +10,22 @@ namespace HCoroutines;
 /// </summary>
 public class TweenCoroutine : CoroutineBase
 {
-    private readonly Func<Tween> createTween;
+    private readonly Action<Tween> setupTween;
     private Tween tween;
 
-    public TweenCoroutine(Func<Tween> createTween, CoRunMode runMode = CoRunMode.Inherit)
+    // TODO: Create additional methods for creating Tween Coroutines (e.g. create Tween on Manager, setup via Action,
+    //       or bound to a node)
+    
+    public TweenCoroutine(Action<Tween> setupTween, CoRunMode runMode = CoRunMode.Inherit)
         : base(CoProcessMode.Inherit, runMode)
     {
-        this.createTween = createTween;
+        this.setupTween = setupTween;
     }
 
     protected override void OnStart()
     {
-        tween = createTween();
+        tween = Manager.CreateTween();
+        setupTween(tween);
         
         if (!tween.IsValid() || !tween.IsRunning()) {
             Kill();
