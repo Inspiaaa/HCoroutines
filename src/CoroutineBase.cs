@@ -19,6 +19,7 @@ public class CoroutineBase
     protected CoroutineBase previousSibling, nextSibling;
 
     public bool IsAlive { get; private set; } = true;
+    public bool IsRunning { get; private set; } = false;
     public bool ShouldReceiveUpdates { get; private set; } = false;
 
     private bool hasCalledStart = false;
@@ -56,15 +57,7 @@ public class CoroutineBase
 
         if (IsAlive)
         {
-            if (!Manager.IsPaused)
-            {
-                hasCalledStart = true;
-                OnStart();
-            }
-            else
-            {
-                hasCalledStart = false; 
-            }
+            UpdateRunState(Manager.IsPaused);
         }
     }
 
@@ -239,7 +232,19 @@ public class CoroutineBase
         }
     }
     
+    /// <summary>
+    /// Called when the game is paused or unpaused.
+    /// </summary>
     public void OnGamePausedChanged(bool isGamePaused)
+    {
+        UpdateRunState(isGamePaused);
+        UpdateChildrenAboutPausedChanged(isGamePaused);
+    }
+
+    /// <summary>
+    /// Informs the child coroutines that the game has been paused / unpaused.
+    /// </summary>
+    private void UpdateChildrenAboutPausedChanged(bool isGamePaused)
     {
         CoroutineBase child = firstChild;
         while (child != null)
@@ -247,6 +252,40 @@ public class CoroutineBase
             child.OnGamePausedChanged(isGamePaused);
             
             child = child.nextSibling;
+        }
+    }
+
+    
+    private void UpdateRunState(bool isGamePaused)
+    {
+        bool shouldBeRunning = RunMode switch {
+            CoRunMode.Always => true,
+            CoRunMode.Pausable => !isGamePaused,
+            CoRunMode.WhenPaused => isGamePaused
+        };
+
+        if (IsRunning == shouldBeRunning)
+        {
+            return;
+        }
+
+        IsRunning = shouldBeRunning;
+
+        if (shouldBeRunning)
+        {
+            if (hasCalledStart)
+            {
+                OnResume();
+            }
+            else
+            {
+                hasCalledStart = true;
+                OnStart();
+            }
+        }
+        else
+        {
+            OnPause();
         }
     }
 }
