@@ -8,19 +8,21 @@ namespace HCoroutines;
 public class WaitDelayCoroutine : CoroutineBase
 {
     private readonly float delay;
+    private readonly bool ignoreTimeScale;
     
     private SceneTreeTimer timer;
     private float remainingTime;
 
-    public WaitDelayCoroutine(float delay, CoRunMode runMode = CoRunMode.Inherit)
+    public WaitDelayCoroutine(float delay, bool ignoreTimeScale = false, CoRunMode runMode = CoRunMode.Inherit)
         : base(CoProcessMode.Inherit, runMode)
     {
         this.delay = delay;
+        this.ignoreTimeScale = ignoreTimeScale;
     }
 
     protected override void OnStart()
     {
-        timer = Manager.GetTree().CreateTimer(delay);
+        timer = Manager.GetTree().CreateTimer(delay, ignoreTimeScale: ignoreTimeScale);
         timer.Timeout += Kill;
     }
 

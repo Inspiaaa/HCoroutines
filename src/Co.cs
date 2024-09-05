@@ -118,8 +118,8 @@ public static class Co
         => new SequentialCoroutine(processMode, runMode, coroutines);
 
 
-    public static WaitDelayCoroutine Wait(float delay, CoRunMode runMode = CoRunMode.Inherit)
-        => new WaitDelayCoroutine(delay, runMode);
+    public static WaitDelayCoroutine Wait(float delay, bool ignoreTimeScale = false, CoRunMode runMode = CoRunMode.Inherit)
+        => new WaitDelayCoroutine(delay, ignoreTimeScale, runMode);
 
 
     public static WaitWhileCoroutine WaitWhile(
