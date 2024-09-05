@@ -14,6 +14,10 @@ public class RepeatCoroutine : CoroutineBase
 
     private bool IsInfinite => repeatTimes == -1;
 
+    // If the coroutine that is being repeated completes while the game is paused, it is not instantly restarted.
+    // Instead, it is restarted once the game is resumed, which is indicated by this flag.
+    private bool isRepeatPending;
+    
     public RepeatCoroutine(int repeatTimes, Func<RepeatCoroutine, CoroutineBase> coroutineCreator)
     {
         this.repeatTimes = repeatTimes;
@@ -25,9 +29,11 @@ public class RepeatCoroutine : CoroutineBase
         if (repeatTimes == 0)
         {
             Kill();
-            return;
         }
+    }
 
+    protected override void OnStart()
+    {
         Repeat();
     }
 
@@ -48,6 +54,27 @@ public class RepeatCoroutine : CoroutineBase
             return;
         }
 
-        Repeat();
+        TryRepeat();
+    }
+
+    private void TryRepeat()
+    {
+        if (IsRunning)
+        {
+            Repeat();
+        }
+        else
+        {
+            isRepeatPending = true;
+        }
+    }
+    
+    protected override void OnResume()
+    {
+        if (isRepeatPending)
+        {
+            isRepeatPending = false;
+            Repeat();
+        }
     }
 }

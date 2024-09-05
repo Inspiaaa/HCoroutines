@@ -14,6 +14,7 @@ public class WaitDelayCoroutine : CoroutineBase
 
     protected override void OnEnter()
     {
+        // TODO: Implement pause logic.
         Manager.GetTree().CreateTimer(delay).Timeout += Kill;
     }
 }

@@ -21,7 +21,6 @@ public class Coroutine : CoroutineBase
 
     public Coroutine(Func<Coroutine, IEnumerator> creator)
     {
-        // TODO: Only create the coroutine OnEnter() (e.g. Sequence of Wait and Coroutine)?
         this.routine = creator(this);
     }
 
@@ -30,9 +29,11 @@ public class Coroutine : CoroutineBase
         if (routine == null)
         {
             Kill();
-            return;
         }
+    }
 
+    protected override void OnStart()
+    {
         EnableUpdates();
     }
 
@@ -56,9 +57,9 @@ public class Coroutine : CoroutineBase
         // coroutine is finished.
         if (obj is CoroutineBase childCoroutine)
         {
-            // It's important to pause before starting the child coroutine.
+            // It's important to disable updates before starting the child coroutine.
             // Otherwise, if the child coroutine instantly terminates, which would
-            // lead to this coroutine resuming, it would pause this coroutine.
+            // lead to this coroutine resuming updates, it would disable updates to this coroutine.
             // That would not be correct.
             DisableUpdates();
             StartCoroutine(childCoroutine);

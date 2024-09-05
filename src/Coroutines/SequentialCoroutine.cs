@@ -8,6 +8,10 @@ public class SequentialCoroutine : CoroutineBase
 {
     private readonly CoroutineBase[] coroutines;
     private int idx = 0;
+    
+    // If one of the steps completes while the game is paused, the next step is not instantly run.
+    // Instead, it is only run once the game is resumed again, which is indicated by this flag.
+    private bool isSwitchToNextCoroutinePending = false;
 
     public SequentialCoroutine(params CoroutineBase[] coroutines)
     {
@@ -19,9 +23,11 @@ public class SequentialCoroutine : CoroutineBase
         if (coroutines.Length == 0)
         {
             Kill();
-            return;
         }
+    }
 
+    protected override void OnStart()
+    {
         StartCoroutine(coroutines[0]);
     }
 
@@ -32,11 +38,32 @@ public class SequentialCoroutine : CoroutineBase
         idx += 1;
         if (idx < coroutines.Length)
         {
-            StartCoroutine(coroutines[idx]);
+            TryStartNextCoroutine();
         }
         else
         {
             Kill();
+        }
+    }
+
+    private void TryStartNextCoroutine()
+    {
+        if (IsRunning)
+        {
+            StartCoroutine(coroutines[idx]);
+        }
+        else
+        {
+            isSwitchToNextCoroutinePending = true;
+        }
+    }
+
+    protected override void OnResume()
+    {
+        if (isSwitchToNextCoroutinePending)
+        {
+            isSwitchToNextCoroutinePending = false;
+            StartCoroutine(coroutines[idx]);
         }
     }
 }

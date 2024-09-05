@@ -18,7 +18,7 @@ public class TweenCoroutine : CoroutineBase
         this.createTween = createTween;
     }
 
-    protected override void OnEnter()
+    protected override void OnStart()
     {
         tween = createTween();
         

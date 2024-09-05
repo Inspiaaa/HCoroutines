@@ -17,9 +17,11 @@ public class ParallelCoroutine : CoroutineBase
         if (coroutines.Length == 0)
         {
             Kill();
-            return;
         }
-
+    }
+    
+    protected override void OnStart() 
+    {
         foreach (CoroutineBase coroutine in coroutines)
         {
             StartCoroutine(coroutine);
