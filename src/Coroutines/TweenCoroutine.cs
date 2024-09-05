@@ -30,6 +30,16 @@ public class TweenCoroutine : CoroutineBase
         tween.Finished += Kill;
     }
 
+    protected override void OnPause()
+    {
+        tween.Pause();
+    }
+
+    protected override void OnResume()
+    {
+        tween.Play();
+    }
+
     protected override void OnExit()
     {
         tween.Kill();
