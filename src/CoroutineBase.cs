@@ -63,7 +63,7 @@ public class CoroutineBase
     /// <summary>
     /// Called when the coroutine starts.
     /// </summary>
-    public virtual void OnEnter() { }
+    protected virtual void OnEnter() { }
 
     /// <summary>
     /// Called every frame if the coroutine is playing.
@@ -73,14 +73,14 @@ public class CoroutineBase
     /// <summary>
     /// Called when the coroutine is killed.
     /// </summary>
-    public virtual void OnExit() { }
+    protected virtual void OnExit() { }
 
     /// <summary>
     /// Starts playing this coroutine, meaning that it will receive Update() calls
     /// each frame. This is independent of the child coroutines.
     /// This method only works if the coroutine is still alive.
     /// </summary>
-    public void ResumeUpdates()
+    protected void ResumeUpdates()
     {
         if (!IsAlive)
         {
@@ -95,7 +95,7 @@ public class CoroutineBase
     /// Stops giving the coroutine Update() calls each frame.
     /// This is independent of the child coroutines.
     /// </summary>
-    public void PauseUpdates()
+    protected void PauseUpdates()
     {
         IsPlaying = false;
         Manager.DeactivateCoroutine(this);
@@ -147,7 +147,7 @@ public class CoroutineBase
     /// <summary>
     /// Adds a coroutine as a child.
     /// </summary>
-    protected void AddChild(CoroutineBase coroutine)
+    private void AddChild(CoroutineBase coroutine)
     {
         if (firstChild == null)
         {
@@ -165,7 +165,7 @@ public class CoroutineBase
     /// <summary>
     /// Removes a child from the list of child coroutines.
     /// </summary>
-    protected void RemoveChild(CoroutineBase coroutine)
+    private void RemoveChild(CoroutineBase coroutine)
     {
         if (coroutine.previousSibling != null)
         {

@@ -25,7 +25,7 @@ public class Coroutine : CoroutineBase
         this.routine = creator(this);
     }
 
-    public override void OnEnter()
+    protected override void OnEnter()
     {
         if (routine == null)
         {

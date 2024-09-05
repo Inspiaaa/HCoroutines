@@ -14,7 +14,7 @@ public class SequentialCoroutine : CoroutineBase
         this.coroutines = coroutines;
     }
 
-    public override void OnEnter()
+    protected override void OnEnter()
     {
         if (coroutines.Length == 0)
         {

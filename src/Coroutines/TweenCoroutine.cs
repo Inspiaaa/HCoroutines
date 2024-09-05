@@ -18,7 +18,7 @@ public class TweenCoroutine : CoroutineBase
         this.createTween = createTween;
     }
 
-    public override void OnEnter()
+    protected override void OnEnter()
     {
         tween = createTween();
         
@@ -30,7 +30,7 @@ public class TweenCoroutine : CoroutineBase
         tween.Finished += Kill;
     }
 
-    public override void OnExit()
+    protected override void OnExit()
     {
         tween.Kill();
     }

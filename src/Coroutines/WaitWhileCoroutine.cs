@@ -14,7 +14,7 @@ public class WaitWhileCoroutine : CoroutineBase
         this.condition = condition;
     }
 
-    public override void OnEnter()
+    protected override void OnEnter()
     {
         CheckCondition();
         if (IsAlive) ResumeUpdates();

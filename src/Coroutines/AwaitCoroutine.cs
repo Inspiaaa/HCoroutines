@@ -16,7 +16,7 @@ public class AwaitCoroutine<T> : CoroutineBase
         this.Task = task;
     }
 
-    public override void OnEnter()
+    protected override void OnEnter()
     {
         // As the CoroutineManager class is not thread safe, ensure that Kill()
         // is executed on the main Godot thread.
@@ -39,7 +39,7 @@ public class AwaitCoroutine : CoroutineBase
         this.Task = task;
     }
 
-    public override void OnEnter()
+    protected override void OnEnter()
     {
         // As the CoroutineManager class is not thread safe, ensure that Kill()
         // is executed on the main Godot thread.

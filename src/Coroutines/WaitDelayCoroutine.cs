@@ -12,7 +12,7 @@ public class WaitDelayCoroutine : CoroutineBase
         this.delay = delay;
     }
 
-    public override void OnEnter()
+    protected override void OnEnter()
     {
         Manager.GetTree().CreateTimer(delay).Timeout += Kill;
     }

@@ -20,7 +20,7 @@ public class RepeatCoroutine : CoroutineBase
         this.coroutineCreator = coroutineCreator;
     }
 
-    public override void OnEnter()
+    protected override void OnEnter()
     {
         if (repeatTimes == 0)
         {

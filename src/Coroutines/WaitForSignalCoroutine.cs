@@ -16,7 +16,7 @@ public class WaitForSignalCoroutine : CoroutineBase
         this.targetSignal = signal;
     }
 
-    public override void OnEnter() {
+    protected override void OnEnter() {
         Manager.ToSignal(targetObject, targetSignal).OnCompleted(Kill);
     }
 }
