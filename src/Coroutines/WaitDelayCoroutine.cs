@@ -1,3 +1,5 @@
+using Godot;
+
 namespace HCoroutines;
 
 /// <summary>
@@ -6,6 +8,9 @@ namespace HCoroutines;
 public class WaitDelayCoroutine : CoroutineBase
 {
     private readonly float delay;
+    
+    private SceneTreeTimer timer;
+    private float remainingTime;
 
     public WaitDelayCoroutine(float delay, CoRunMode runMode = CoRunMode.Inherit)
         : base(CoProcessMode.Inherit, runMode)
@@ -13,10 +18,20 @@ public class WaitDelayCoroutine : CoroutineBase
         this.delay = delay;
     }
 
-    protected override void OnEnter()
+    protected override void OnStart()
     {
-        // TODO: Implement pause logic.
-        // TODO: Expose option to use timescale
-        Manager.GetTree().CreateTimer(delay).Timeout += Kill;
+        timer = Manager.GetTree().CreateTimer(delay);
+        timer.Timeout += Kill;
+    }
+
+    protected override void OnPause()
+    {
+        remainingTime = (float)timer.TimeLeft;
+        timer.TimeLeft = double.MaxValue;
+    }
+
+    protected override void OnResume()
+    {
+        timer.TimeLeft = remainingTime;
     }
 }
