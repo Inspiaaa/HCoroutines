@@ -20,7 +20,7 @@ public partial class CoroutineManager : Node
     public void StartCoroutine(CoroutineBase coroutine)
     {
         coroutine.Manager = this;
-        coroutine.OnEnter();
+        coroutine.Init();
     }
 
     public void ActivateCoroutine(CoroutineBase coroutine)

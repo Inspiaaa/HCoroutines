@@ -27,26 +27,43 @@ public class CoroutineBase
     /// Determines whether the Update() method is called during process frames or physics frames.
     /// </summary>
     public CoProcessMode ProcessMode { get; private set; }
-
+    
+    /// <summary>
+    /// Determines the pause behaviour of this coroutine.
+    /// </summary>
+    public CoRunMode RunMode { get; private set; }
+    
     public void StartCoroutine(CoroutineBase coroutine)
     {
         coroutine.Manager = Manager;
         coroutine.Parent = this;
 
         AddChild(coroutine);
-        coroutine.OnEnter();
+        coroutine.Init();
+    }
+
+    /// <summary>
+    /// Initializes the coroutine once it has been added to the active coroutine hierarchy.
+    /// </summary>
+    public void Init()
+    {
+        if (this.ProcessMode == CoProcessMode.Inherit) 
+        {
+            this.ProcessMode = Parent?.ProcessMode ?? CoProcessMode.Normal;
+        }
+
+        if (this.RunMode == CoRunMode.Inherit)
+        {
+            this.RunMode = Parent?.RunMode ?? CoRunMode.Pausable;
+        }
+        
+        OnEnter();
     }
 
     /// <summary>
     /// Called when the coroutine starts.
     /// </summary>
-    public virtual void OnEnter()
-    {
-        if (this.ProcessMode == CoProcessMode.Inherit) 
-        {
-            this.ProcessMode = Parent?.ProcessMode ?? CoProcessMode.Normal;
-        }    
-    }
+    public virtual void OnEnter() { }
 
     /// <summary>
     /// Called every frame if the coroutine is playing.
