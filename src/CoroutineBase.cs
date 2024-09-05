@@ -35,6 +35,8 @@ public class CoroutineBase
     /// Determines the pause behaviour of this coroutine.
     /// </summary>
     public CoRunMode RunMode { get; private set; }
+
+    public event Action Stopped;
     
     public void StartCoroutine(CoroutineBase coroutine)
     {
@@ -191,6 +193,7 @@ public class CoroutineBase
         }
 
         Parent?.OnChildStopped(this);
+        Stopped?.Invoke();
     }
 
     /// <summary>

@@ -24,6 +24,7 @@ public partial class CoroutineManager : Node
     public void StartCoroutine(CoroutineBase coroutine)
     {
         coroutine.Manager = this;
+        coroutine.Stopped += () => aliveRootCoroutines.Remove(coroutine);
         coroutine.Init();
         aliveRootCoroutines.Add(coroutine);
     }
