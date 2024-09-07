@@ -11,7 +11,7 @@ namespace HCoroutines;
 /// <summary>
 /// Class that allows for easy access to the standard coroutine types.
 /// </summary>
-public static class Co
+public static partial class Co
 {
     private static CoroutineBase[] GetCoroutines(IEnumerator[] enumerators)
     {
