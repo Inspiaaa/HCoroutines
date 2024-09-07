@@ -3,7 +3,7 @@ using System.Collections;
 using System.Threading.Tasks;
 using Godot;
 
-// Hierarchical Coroutines v1.0 for Godot
+// Hierarchical Coroutines v2.0 for Godot
 // by @Inspiaaa
 
 namespace HCoroutines;
