@@ -2,7 +2,7 @@
 
 <p align="center">
 	<a href="https://godotengine.org/">
-		<img src="https://img.shields.io/badge/GODOT-4.x-blue?style=for-the-badge&logo=godot-engine" alt="Godot 4.x" /></a>
+		<img src="https://img.shields.io/badge/GODOT-4.x-blue?style=for-the-badge&logo=godot-engine&logoColor=white" alt="Godot 4.x" /></a>
 	<img src="https://img.shields.io/badge/c%23-%23239120?style=for-the-badge&logo=csharp&logoColor=white" alt="C#"/>
 	<a href="https://github.com/Inspiaaa/HCoroutines/releases">
 		<img src="https://img.shields.io/github/v/release/Inspiaaa/HCoroutines?style=for-the-badge"" alt="Release" /></a>
