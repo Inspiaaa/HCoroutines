@@ -49,7 +49,6 @@ public class TimeoutCoroutine : CoroutineBase
 
     protected override void OnChildStopped(CoroutineBase child)
     {
-        base.OnChildStopped(child);
         Kill();
     }
 }
