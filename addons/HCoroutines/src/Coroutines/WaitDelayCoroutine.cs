@@ -1,4 +1,5 @@
 using Godot;
+using HCoroutines.Util;
 
 namespace HCoroutines;
 
@@ -9,9 +10,8 @@ public class WaitDelayCoroutine : CoroutineBase
 {
     private readonly float delay;
     private readonly bool ignoreTimeScale;
-    
-    private SceneTreeTimer timer;
-    private float remainingTime;
+
+    private PausableTimer timer;
 
     public WaitDelayCoroutine(float delay, bool ignoreTimeScale = false, CoRunMode runMode = CoRunMode.Inherit)
         : base(CoProcessMode.Inherit, runMode)
@@ -22,18 +22,16 @@ public class WaitDelayCoroutine : CoroutineBase
 
     protected override void OnStart()
     {
-        timer = Manager.GetTree().CreateTimer(delay, ignoreTimeScale: ignoreTimeScale);
-        timer.Timeout += Kill;
+        timer = new PausableTimer(Manager.GetTree(), delay, ignoreTimeScale, callback: Kill);
     }
 
     protected override void OnPause()
     {
-        remainingTime = (float)timer.TimeLeft;
-        timer.TimeLeft = double.MaxValue;
+        timer.Pause();
     }
 
     protected override void OnResume()
     {
-        timer.TimeLeft = remainingTime;
+        timer.Resume();
     }
 }
