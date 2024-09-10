@@ -1,4 +1,4 @@
-#TODO Logo
+<p align="center"><img width="250" src="./docs/logo.png" alt="Hierarchical Coroutines (C#)" /></p>
 
 <p align="center">
 	<a href="https://godotengine.org/">
