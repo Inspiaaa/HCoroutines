@@ -332,6 +332,10 @@ IEnumerator PlayGuiMoveAnimation() {
   - `Co.Parallel(co1, co2, ...)`
   - Runs multiple coroutines in parallel and waits for all to finish.
 
+- `WaitForAnyCoroutine`
+  - `Co.WaitForAny(co1, co2, ...)`
+  - Runs multiple coroutines in parallel and exits as soon as any one of them finishes.
+
 - `SequentialCoroutine`
   - `Co.Sequence(co1, co2, ...)`
   - Runs the passed coroutines in sequence, one after another.
@@ -365,6 +369,10 @@ IEnumerator PlayGuiMoveAnimation() {
 - `TweenCoroutine`
   - `Co.Tween(tween => { ... set up the tween here ... } )`
   - Special coroutine that manages a tween instance. Waits until the tween has stopped playing.
+
+- `TimeoutCoroutine`
+  - `Co.Timeout(delay, co)`
+  - Runs a coroutine until completion or until a certain delay has passed, after which it is killed.
 
 ## Scene-Local CoroutineManager
 
