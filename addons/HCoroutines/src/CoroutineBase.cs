@@ -47,6 +47,11 @@ public class CoroutineBase
     
     public void StartCoroutine(CoroutineBase coroutine)
     {
+        if (!IsAlive)
+        {
+            throw new InvalidOperationException("Cannot start child coroutine on dead parent coroutine.");
+        }
+        
         coroutine.Manager = Manager;
         coroutine.Parent = this;
 
