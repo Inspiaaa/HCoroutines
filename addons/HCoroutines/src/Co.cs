@@ -217,4 +217,23 @@ public static partial class Co
 
     public static TimeoutCoroutine Timeout(float timeout, CoroutineBase coroutine)
         => new TimeoutCoroutine(timeout, coroutine);
+    
+    
+    public static WaitForAnyCoroutine WaitForAny(params IEnumerator[] enumerators)
+        => new WaitForAnyCoroutine(GetCoroutines(enumerators));
+    
+    public static WaitForAnyCoroutine WaitForAny(
+        CoProcessMode processMode,
+        CoRunMode runMode, 
+        params IEnumerator[] enumerators)
+        => new WaitForAnyCoroutine(processMode, runMode, GetCoroutines(enumerators));
+
+    public static WaitForAnyCoroutine WaitForAny(params CoroutineBase[] coroutines)
+        => new WaitForAnyCoroutine(coroutines);
+    
+    public static WaitForAnyCoroutine WaitForAny(
+        CoProcessMode processMode,
+        CoRunMode runMode, 
+        params CoroutineBase[] coroutines)
+        => new WaitForAnyCoroutine(processMode, runMode, coroutines);
 }
