@@ -210,4 +210,11 @@ public static partial class Co
 
     public static AwaitCoroutine Await(Task task, CoRunMode runMode = CoRunMode.Inherit)
         => new AwaitCoroutine(task, runMode);
+
+
+    public static TimeoutCoroutine Timeout(float timeout, IEnumerator coroutine)
+        => new TimeoutCoroutine(timeout, new Coroutine(coroutine));
+
+    public static TimeoutCoroutine Timeout(float timeout, CoroutineBase coroutine)
+        => new TimeoutCoroutine(timeout, coroutine);
 }
