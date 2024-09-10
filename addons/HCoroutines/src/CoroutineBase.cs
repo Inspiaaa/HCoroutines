@@ -45,6 +45,12 @@ public class CoroutineBase
     /// </summary>
     public event Action Stopped;
     
+    public CoroutineBase(CoProcessMode processMode, CoRunMode runMode)
+    {
+        this.ProcessMode = processMode;
+        this.RunMode = runMode;
+    }
+    
     public void StartCoroutine(CoroutineBase coroutine)
     {
         if (!IsAlive)
@@ -57,12 +63,6 @@ public class CoroutineBase
 
         AddChild(coroutine);
         coroutine.Init();
-    }
-
-    public CoroutineBase(CoProcessMode processMode, CoRunMode runMode)
-    {
-        this.ProcessMode = processMode;
-        this.RunMode = runMode;
     }
     
     /// <summary>
