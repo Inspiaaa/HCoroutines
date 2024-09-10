@@ -1,5 +1,6 @@
 using Godot;
-using System;
+
+namespace  HCoroutines.Demo;
 
 public partial class IconSpawner : Node2D
 {
@@ -21,14 +22,5 @@ public partial class IconSpawner : Node2D
     public override void _Ready()
     {
         ProcessMode = ProcessModeEnum.Always;
-    }
-
-    public override void _Process(double delta)
-    {
-        if (Input.IsActionJustPressed("ui_select"))
-        {
-            GetTree().Paused = !GetTree().Paused;
-            GD.Print("Pause = ", GetTree().Paused);
-        }
     }
 }

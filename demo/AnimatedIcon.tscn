@@ -1,8 +1,0 @@
-[gd_scene load_steps=3 format=3 uid="uid://b5l6lw58vlxd"]
-
-[ext_resource type="Texture2D" uid="uid://dmu5kre1cjvw4" path="res://HCoroutines/demo/Icon.png" id="1"]
-[ext_resource type="Script" path="res://HCoroutines/demo/IconAnimation.cs" id="2"]
-
-[node name="Icon" type="Sprite2D"]
-texture = ExtResource("1")
-script = ExtResource("2")

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dmu5kre1cjvw4"
-path="res://.godot/imported/Icon.png-68b487edcbe40feab18e741224dda706.ctex"
+uid="uid://wl3ej1d5eyt"
+path="res://.godot/imported/Triangle.svg-a26d635ad4a91a9625888d0f572c7475.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://HCoroutines/demo/Icon.png"
-dest_files=["res://.godot/imported/Icon.png-68b487edcbe40feab18e741224dda706.ctex"]
+source_file="res://demo/assets/Triangle.svg"
+dest_files=["res://.godot/imported/Triangle.svg-a26d635ad4a91a9625888d0f572c7475.ctex"]
 
 [params]
 
@@ -32,3 +32,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
+svg/scale=1.0
+editor/scale_with_editor_scale=false
+editor/convert_colors_with_editor_theme=false

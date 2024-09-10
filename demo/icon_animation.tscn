@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://83bur2ci41dy"]
+
+[ext_resource type="Texture2D" uid="uid://wl3ej1d5eyt" path="res://demo/assets/Triangle.svg" id="1_rp134"]
+[ext_resource type="Script" path="res://demo/scripts/DynamicIconAnimation.cs" id="2_ystdp"]
+
+[node name="IconAnimation" type="Sprite2D"]
+modulate = Color(0, 0, 0, 1)
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("1_rp134")
+script = ExtResource("2_ystdp")
