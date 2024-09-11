@@ -212,12 +212,12 @@ IEnumerator MyCoroutine() {
     // Same as above.  
     yield return Co.Coroutine(PlayAnimation());
     
-	// Spawn a WaitDelayCoroutine and wait for it to complete.
+    // Spawn a WaitDelayCoroutine and wait for it to complete.
     yield return Co.Wait(2);
 }
 
 IEnumerator PlayAnimation() {
-	// ...
+    // ...
 }
 ```
 
