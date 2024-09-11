@@ -162,7 +162,7 @@ The core of this library consists of two components:
 
 However, most features that you'll be interacting with directly are implemented in other classes:
 
-- There are many **built-in coroutine types** (subclasses of the `CoroutineBase` class) that implement various different features, such as delays, running coroutines in parallel, awaiting an async task, ...
+- There are many **built-in coroutine types** (subclasses of the `CoroutineBase` class) that implement various different features, such as delays, running coroutines in parallel, awaiting async tasks, ...
 
 - The **most important coroutine** type is the `Coroutine` class. It allows you to define a coroutine in the intuitive / standard way with `IEnumerator`s (like in Unity).
 
@@ -233,6 +233,12 @@ or:
 Co.Run(MyCoroutine());
 ```
 
+Both are equivalent to writing:
+
+```csharp
+Co.Run(new Coroutine(MyCoroutine()));
+```
+
 ### Process Mode
 
 When interacting with Godot's physics system, it's often necessary to run code in `_PhysicsProcess()` instead of the regular `_Process()` method.
@@ -249,7 +255,7 @@ new Coroutine(MyCoroutine(), processMode: CoProcessMode.Inherit);
 - `CoProcessMode.Physics` = run in physics frames.
 - `CoProcessMode.Inherit` = inherit the process mode from the parent coroutine.
 
-This option is also available for other coroutine types, e.g. `ParallelCoroutine`. By default, coroutines **inherit** the process mode from their parents. If a coroutine has no parent, it defaults to `CoProcessMode.Normal`. This means that if you have a `ParallelCoroutine` that sets its process mode to `Physics`, all its child coroutines that are run in parallel will also run in physics frames (provided that they have their mode set to `Inherit`).
+This option is also available for other coroutine types, e.g. `ParallelCoroutine`. By default, coroutines **inherit** the process mode from their parents. If a coroutine has no parent, it defaults to `CoProcessMode.Normal`. This means that if you have a `ParallelCoroutine` that sets its process mode to `Physics`, all its child coroutines will also run in physics frames (provided that they have their mode set to `Inherit`).
 
 The useful `Co` class also exposes the `processMode` parameter when creating coroutines:
 
@@ -359,7 +365,7 @@ IEnumerator PlayGuiMoveAnimation() {
   - Waits until a certain condition is true.
 
 - `WaitForSignalCoroutine`
-  - `Co.WaitForSignal(obj, signal name)``
+  - `Co.WaitForSignal(obj, signal name)`
   - Waits for a signal to be emitted.
 
 - `AwaitCoroutine`
@@ -384,7 +390,7 @@ In order to set up a scene-local coroutine manager, simply add the `CoroutineMan
 
 ## Creating Custom Coroutines
 
-You can easily create a custom coroutine type by creating a new class that inherits from `CoroutineBase`. For concrete examples, it's best to see how the built-in coroutines types are implemented by looking at the source code.
+You can easily create a custom coroutine type by creating a new class that inherits from `CoroutineBase`. For concrete examples, it's best to see how the built-in coroutines types are implemented by looking at the [source code](https://github.com/Inspiaaa/HCoroutines/tree/master/addons/HCoroutines/src/Coroutines).
 
 #### Update Method
 
@@ -466,6 +472,12 @@ public class AwaitFirstCoroutine : CoroutineBase
         foreach (var coroutine in coroutines)
         {
             StartCoroutine(coroutine);
+
+            // Check that the coroutine that was just started
+            // has not finished already, causing this coroutine
+            // to also stop.
+            if (!IsAlive)
+                return;
         }
     }
 
