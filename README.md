@@ -317,7 +317,8 @@ IEnumerator MyCoroutine() {
         Co.Coroutine(MoveTo(GetLocalMousePosition(), 2)),  
         // Also play the GUI animation while the game is paused.  
         Co.Coroutine(PlayGuiMoveAnimation(), runMode: CoRunMode.Always)  
-    );}  
+    );
+}  
   
 IEnumerator PlayGuiMoveAnimation() {  
     // ...  
