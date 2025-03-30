@@ -1,3 +1,4 @@
+using Godot;
 using System;
 using System.Collections;
 
@@ -84,6 +85,8 @@ public class Coroutine : CoroutineBase
             StartCoroutine(new Coroutine(childEnumerator));
             return;
         }
+
+        GD.PushWarning($"Invalid yield return value: '{obj}'. See the docs for allowed return values.");
     }
 
     protected override void OnChildStopped(CoroutineBase child)
