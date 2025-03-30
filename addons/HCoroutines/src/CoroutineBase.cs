@@ -170,15 +170,11 @@ public class CoroutineBase
 
     /// <summary>
     /// Called when one of the child coroutines stops / finishes.
+    /// This method is only called by a child coroutine when this coroutine is not dead.
     /// </summary>
     protected virtual void OnChildStopped(CoroutineBase child)
     {
-        // If the parent coroutine is dead, then there is no reason to
-        // manually remove the child coroutines.
-        if (IsAlive)
-        {
-            RemoveChild(child);
-        }
+        RemoveChild(child);
     }
 
     /// <summary>
@@ -192,6 +188,9 @@ public class CoroutineBase
             return;
         }
 
+        IsAlive = false;
+        Manager.DeactivateCoroutine(this);
+
         try
         {
             OnExit();
@@ -201,9 +200,6 @@ public class CoroutineBase
             GD.PrintErr(e.ToString());
         }
 
-        IsAlive = false;
-        Manager.DeactivateCoroutine(this);
-
         CoroutineBase child = firstChild;
         while (child != null)
         {
@@ -211,7 +207,11 @@ public class CoroutineBase
             child = child.nextSibling;
         }
 
-        Parent?.OnChildStopped(this);
+        if (Parent != null && Parent.IsAlive)
+        {
+            Parent.OnChildStopped(this);
+        }
+
         Stopped?.Invoke();
     }
 
