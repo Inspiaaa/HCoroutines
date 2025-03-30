@@ -10,8 +10,8 @@ public class WaitWhileCoroutine : CoroutineBase
     private readonly Func<Boolean> condition;
 
     public WaitWhileCoroutine(
-        Func<Boolean> condition, 
-        CoProcessMode processMode = CoProcessMode.Inherit, 
+        Func<Boolean> condition,
+        CoProcessMode processMode = CoProcessMode.Inherit,
         CoRunMode runMode = CoRunMode.Inherit
     )
         : base(processMode, runMode)

@@ -16,20 +16,20 @@ public class Coroutine : CoroutineBase
     private readonly IEnumerator routine;
 
     public Coroutine(
-        IEnumerator routine, 
-        CoProcessMode processMode = CoProcessMode.Inherit, 
+        IEnumerator routine,
+        CoProcessMode processMode = CoProcessMode.Inherit,
         CoRunMode runMode = CoRunMode.Inherit
-    ) 
+    )
         : base(processMode, runMode)
     {
         this.routine = routine;
     }
-    
+
     public Coroutine(
-        Func<Coroutine, IEnumerator> creator, 
-        CoProcessMode processMode = CoProcessMode.Inherit, 
+        Func<Coroutine, IEnumerator> creator,
+        CoProcessMode processMode = CoProcessMode.Inherit,
         CoRunMode runMode = CoRunMode.Inherit
-    ) 
+    )
         : base(processMode, runMode)
     {
         this.routine = creator(this);

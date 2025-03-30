@@ -17,11 +17,11 @@ public class RepeatCoroutine : CoroutineBase
     // If the coroutine that is being repeated completes while the game is paused, it is not instantly restarted.
     // Instead, it is restarted once the game is resumed, which is indicated by this flag.
     private bool isRepeatPending;
-    
+
     public RepeatCoroutine(
-        int repeatTimes, 
+        int repeatTimes,
         Func<RepeatCoroutine, CoroutineBase> coroutineCreator,
-        CoProcessMode processMode = CoProcessMode.Inherit, 
+        CoProcessMode processMode = CoProcessMode.Inherit,
         CoRunMode runMode = CoRunMode.Inherit
     )
         : base(processMode, runMode)
@@ -29,11 +29,11 @@ public class RepeatCoroutine : CoroutineBase
         this.repeatTimes = repeatTimes;
         this.coroutineCreator = () => coroutineCreator(this);
     }
-    
+
     public RepeatCoroutine(
-        int repeatTimes, 
+        int repeatTimes,
         Func<CoroutineBase> coroutineCreator,
-        CoProcessMode processMode = CoProcessMode.Inherit, 
+        CoProcessMode processMode = CoProcessMode.Inherit,
         CoRunMode runMode = CoRunMode.Inherit
     )
         : base(processMode, runMode)
@@ -86,7 +86,7 @@ public class RepeatCoroutine : CoroutineBase
             isRepeatPending = true;
         }
     }
-    
+
     protected override void OnResume()
     {
         if (isRepeatPending)

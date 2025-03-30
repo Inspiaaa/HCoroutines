@@ -8,7 +8,7 @@ namespace HCoroutines.Util;
 public class DeferredHashSet<T>
 {
     public HashSet<T> Items = new();
-    
+
     private bool isIterating = false;
     private HashSet<T> itemsToAdd = new();
     private HashSet<T> itemsToRemove = new();

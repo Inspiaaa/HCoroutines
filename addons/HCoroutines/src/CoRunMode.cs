@@ -7,18 +7,18 @@ public enum CoRunMode {
     /// <summary>
     /// The RunMode is inherited from the parent coroutine. If there is no parent, Pausable is used.
     /// </summary>
-    Inherit, 
-    
+    Inherit,
+
     /// <summary>
     /// The coroutine is paused when the game is paused.
     /// </summary>
-    Pausable, 
-    
+    Pausable,
+
     /// <summary>
     /// The coroutine only runs when the game is paused.
     /// </summary>
-    WhenPaused, 
-    
+    WhenPaused,
+
     /// <summary>
     /// The coroutine always runs, regardless of whether the game is paused is or not.
     /// </summary>

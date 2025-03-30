@@ -25,10 +25,10 @@ public static partial class Co
         return coroutines;
     }
 
-    
+
     public static float DeltaTime => CoroutineManager.Instance.DeltaTime;
     public static double DeltaTimeDouble => CoroutineManager.Instance.DeltaTimeDouble;
-    
+
     public static float PhysicsDeltaTime => CoroutineManager.Instance.PhysicsDeltaTime;
     public static double PhysicsDeltaTimeDouble => CoroutineManager.Instance.PhysicsDeltaTimeDouble;
 
@@ -37,8 +37,8 @@ public static partial class Co
         => CoroutineManager.Instance.StartCoroutine(coroutine);
 
     public static Coroutine Run(
-        IEnumerator coroutine, 
-        CoProcessMode processMode = CoProcessMode.Inherit, 
+        IEnumerator coroutine,
+        CoProcessMode processMode = CoProcessMode.Inherit,
         CoRunMode runMode = CoRunMode.Inherit)
     {
         Coroutine co = new Coroutine(coroutine, processMode, runMode);
@@ -82,48 +82,48 @@ public static partial class Co
 
     public static ParallelCoroutine Parallel(params IEnumerator[] enumerators)
         => new ParallelCoroutine(GetCoroutines(enumerators));
-    
+
     public static ParallelCoroutine Parallel(
             CoProcessMode processMode,
-            CoRunMode runMode, 
+            CoRunMode runMode,
             params IEnumerator[] enumerators)
         => new ParallelCoroutine(processMode, runMode, GetCoroutines(enumerators));
 
     public static ParallelCoroutine Parallel(params CoroutineBase[] coroutines)
         => new ParallelCoroutine(coroutines);
-    
+
     public static ParallelCoroutine Parallel(
             CoProcessMode processMode,
-            CoRunMode runMode, 
+            CoRunMode runMode,
             params CoroutineBase[] coroutines)
         => new ParallelCoroutine(processMode, runMode, coroutines);
 
 
     public static SequentialCoroutine Sequence(params IEnumerator[] enumerators)
         => new SequentialCoroutine(GetCoroutines(enumerators));
-    
+
     public static SequentialCoroutine Sequence(
             CoProcessMode processMode,
-            CoRunMode runMode, 
+            CoRunMode runMode,
             params IEnumerator[] enumerators)
         => new SequentialCoroutine(processMode, runMode, GetCoroutines(enumerators));
 
     public static SequentialCoroutine Sequence(params CoroutineBase[] coroutines)
         => new SequentialCoroutine(coroutines);
-    
+
     public static SequentialCoroutine Sequence(
             CoProcessMode processMode,
-            CoRunMode runMode, 
+            CoRunMode runMode,
             params CoroutineBase[] coroutines)
         => new SequentialCoroutine(processMode, runMode, coroutines);
 
 
     public static WaitDelayCoroutine Wait(float delay, bool ignoreTimeScale = false, CoRunMode runMode = CoRunMode.Inherit)
         => new WaitDelayCoroutine(delay, ignoreTimeScale, runMode);
-    
+
     public static WaitDelayCoroutine Sleep(float delay, bool ignoreTimeScale = false, CoRunMode runMode = CoRunMode.Inherit)
         => new WaitDelayCoroutine(delay, ignoreTimeScale, runMode);
-    
+
     public static WaitDelayCoroutine Delay(float delay, bool ignoreTimeScale = false, CoRunMode runMode = CoRunMode.Inherit)
         => new WaitDelayCoroutine(delay, ignoreTimeScale, runMode);
 
@@ -148,28 +148,28 @@ public static partial class Co
 
 
     public static RepeatCoroutine Repeat(
-            int times, 
+            int times,
             Func<RepeatCoroutine, CoroutineBase> creator,
             CoProcessMode processMode = CoProcessMode.Inherit,
             CoRunMode runMode = CoRunMode.Inherit)
         => new RepeatCoroutine(times, creator, processMode, runMode);
 
     public static RepeatCoroutine Repeat(
-            int times, 
+            int times,
             Func<CoroutineBase> creator,
             CoProcessMode processMode = CoProcessMode.Inherit,
             CoRunMode runMode = CoRunMode.Inherit)
         => new RepeatCoroutine(times, creator, processMode, runMode);
 
     public static RepeatCoroutine Repeat(
-            int times, 
+            int times,
             Func<RepeatCoroutine, IEnumerator> creator,
             CoProcessMode processMode = CoProcessMode.Inherit,
             CoRunMode runMode = CoRunMode.Inherit)
         => new RepeatCoroutine(times, coroutine => new Coroutine(creator(coroutine)), processMode, runMode);
 
     public static RepeatCoroutine Repeat(
-            int times, 
+            int times,
             Func<IEnumerator> creator,
             CoProcessMode processMode = CoProcessMode.Inherit,
             CoRunMode runMode = CoRunMode.Inherit)
@@ -217,23 +217,23 @@ public static partial class Co
 
     public static TimeoutCoroutine Timeout(float timeout, CoroutineBase coroutine)
         => new TimeoutCoroutine(timeout, coroutine);
-    
-    
+
+
     public static WaitForAnyCoroutine WaitForAny(params IEnumerator[] enumerators)
         => new WaitForAnyCoroutine(GetCoroutines(enumerators));
-    
+
     public static WaitForAnyCoroutine WaitForAny(
         CoProcessMode processMode,
-        CoRunMode runMode, 
+        CoRunMode runMode,
         params IEnumerator[] enumerators)
         => new WaitForAnyCoroutine(processMode, runMode, GetCoroutines(enumerators));
 
     public static WaitForAnyCoroutine WaitForAny(params CoroutineBase[] coroutines)
         => new WaitForAnyCoroutine(coroutines);
-    
+
     public static WaitForAnyCoroutine WaitForAny(
         CoProcessMode processMode,
-        CoRunMode runMode, 
+        CoRunMode runMode,
         params CoroutineBase[] coroutines)
         => new WaitForAnyCoroutine(processMode, runMode, coroutines);
 }

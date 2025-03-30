@@ -3,23 +3,23 @@ using Godot;
 
 namespace HCoroutines.Demo;
 
-public partial class StaticIconAnimation : Node2D 
+public partial class StaticIconAnimation : Node2D
 {
     [Export] private Color pauseColor;
     [Export] private Color runColor;
 
     [Export] private float scaleFrequency = 2;
-    
+
     [Export] private CoRunMode runMode;
 
     private Vector2 initialScale;
-    
+
     private CoroutineBase coroutine;
-    
+
     public override void _Ready()
     {
         initialScale = Scale;
-        
+
         Co.Run(UpdateColor(), runMode: CoRunMode.Always);
 
         coroutine = Co.RepeatInfinitely(
@@ -50,7 +50,7 @@ public partial class StaticIconAnimation : Node2D
             .TweenProperty(this, "rotation", Mathf.Pi * 4, duration: 4)
             .SetTrans(Tween.TransitionType.Sine)
             .SetEase(Tween.EaseType.InOut);
-        
+
         tween.TweenCallback(Callable.From(() => Rotation = 0));
     }
 

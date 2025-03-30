@@ -17,7 +17,7 @@ public partial class DynamicIconAnimation : Node2D
         Vector2 center = GetViewportRect().Size / 2;
         Rotation = GetAngleTo(center);
         yield return GoToPosition(center, speed: 100);
-        
+
         // Wait for a second.
         yield return Co.Wait(1);
 
@@ -35,7 +35,7 @@ public partial class DynamicIconAnimation : Node2D
 
         // Simulate some async action, e.g. making a network request or writing to file.
         yield return Co.Await(UpdateScoreboard());
-        
+
         // End.
         QueueFree();
     }
@@ -56,9 +56,9 @@ public partial class DynamicIconAnimation : Node2D
         {
             Vector2 mouse = GetGlobalMousePosition();
             targetAngle = Position.AngleToPoint(mouse);
-            
+
             Rotation = Mathf.LerpAngle(Rotation, targetAngle, 1 - Mathf.Pow(speed, Co.DeltaTime));
-            
+
             yield return null;
         } while (Mathf.Abs(Mathf.AngleDifference(Rotation, targetAngle)) > tolerance);
     }
@@ -82,13 +82,13 @@ public partial class DynamicIconAnimation : Node2D
     private void Explode(Tween tween)
     {
         float duration = 0.125f;
-        
+
         tween.TweenProperty(this, "modulate", Modulate with { A = 0 }, duration)
             .SetEase(Tween.EaseType.In)
             .SetTrans(Tween.TransitionType.Cubic);
-        
+
         tween.Parallel();
-        
+
         tween.TweenProperty(this, "scale", Scale * 5, duration)
             .SetEase(Tween.EaseType.In)
             .SetTrans(Tween.TransitionType.Cubic);

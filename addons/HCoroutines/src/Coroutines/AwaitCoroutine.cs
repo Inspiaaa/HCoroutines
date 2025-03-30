@@ -12,7 +12,7 @@ public class AwaitCoroutine<T> : CoroutineBase
 {
     public readonly Task<T> Task;
 
-    public AwaitCoroutine(Task<T> task, CoRunMode runMode = CoRunMode.Inherit) 
+    public AwaitCoroutine(Task<T> task, CoRunMode runMode = CoRunMode.Inherit)
         : base(CoProcessMode.Inherit, runMode)
     {
         this.Task = task;

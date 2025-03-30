@@ -1,20 +1,20 @@
 namespace HCoroutines;
 
 /// <summary>
-/// Runs multiple coroutines in parallel and exits as soon as any one of them finishes. 
+/// Runs multiple coroutines in parallel and exits as soon as any one of them finishes.
 /// </summary>
 public class WaitForAnyCoroutine : CoroutineBase
 {
     private readonly CoroutineBase[] coroutines;
 
-    public WaitForAnyCoroutine(params CoroutineBase[] coroutines) 
+    public WaitForAnyCoroutine(params CoroutineBase[] coroutines)
         : this(CoProcessMode.Inherit, CoRunMode.Inherit, coroutines) { }
-    
+
     public WaitForAnyCoroutine(
-        CoProcessMode processMode, 
+        CoProcessMode processMode,
         CoRunMode runMode,
         params CoroutineBase[] coroutines
-    ) 
+    )
         : base(processMode, runMode)
     {
         this.coroutines = coroutines;
@@ -27,8 +27,8 @@ public class WaitForAnyCoroutine : CoroutineBase
             Kill();
         }
     }
-    
-    protected override void OnStart() 
+
+    protected override void OnStart()
     {
         foreach (CoroutineBase coroutine in coroutines)
         {

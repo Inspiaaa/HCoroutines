@@ -7,13 +7,13 @@ public enum CoProcessMode {
     /// <summary>
     /// The ProcessMode is inherited from the parent coroutine. If there is no parent, then the Normal mode is used.
     /// </summary>
-    Inherit, 
-    
+    Inherit,
+
     /// <summary>
     /// The Update() method is called during each process frame (like the _Process() method).
     /// </summary>
-    Normal, 
-    
+    Normal,
+
     /// <summary>
     /// The Update() method is called during each physics frame (like the _PhysicsProcess() method).
     /// </summary>

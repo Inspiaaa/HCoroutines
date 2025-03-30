@@ -9,10 +9,10 @@ public partial class CoroutineManager : Node
 {
     public static CoroutineManager Instance { get; private set; }
     private static CoroutineManager globalInstance;
-    
+
     public float DeltaTime { get; private set; }
     public double DeltaTimeDouble { get; private set; }
-    
+
     public float PhysicsDeltaTime { get; private set; }
     public double PhysicsDeltaTimeDouble { get; private set; }
 
@@ -21,7 +21,7 @@ public partial class CoroutineManager : Node
     private DeferredHashSet<CoroutineBase> activeProcessCoroutines = new();
     private DeferredHashSet<CoroutineBase> activePhysicsProcessCoroutines = new();
     private HashSet<CoroutineBase> aliveRootCoroutines = new();
-    
+
     public override void _EnterTree()
     {
         Instance = this;

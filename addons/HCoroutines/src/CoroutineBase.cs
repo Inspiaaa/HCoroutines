@@ -14,7 +14,7 @@ public class CoroutineBase
 {
     public CoroutineManager Manager;
     public CoroutineBase Parent;
-    
+
     protected CoroutineBase firstChild, lastChild;
     protected CoroutineBase previousSibling, nextSibling;
 
@@ -24,17 +24,17 @@ public class CoroutineBase
 
     private bool hasCalledStart = false;
     private bool wasReceivingUpdatesBeforePause = false;
-    
+
     /// <summary>
     /// Determines whether the Update() method is called during process frames or physics frames.
     /// </summary>
     public CoProcessMode ProcessMode { get; private set; }
-    
+
     /// <summary>
     /// Determines the pause behaviour of this coroutine.
     /// </summary>
     public CoRunMode RunMode { get; private set; }
-    
+
     // The ProcessMode and RunMode fields should be treated as readonly, as they are not and should not be changed
     // after construction of the coroutine. They are not declared as readonly, as the `Inherit` mode has to be
     // translated into an actual mode, which is only known when the coroutine is added to the hierarchy, not when
@@ -44,34 +44,34 @@ public class CoroutineBase
     /// Event that is fired when this coroutine is killed (stops).
     /// </summary>
     public event Action Stopped;
-    
+
     public CoroutineBase(CoProcessMode processMode, CoRunMode runMode)
     {
         this.ProcessMode = processMode;
         this.RunMode = runMode;
     }
-    
+
     public void StartCoroutine(CoroutineBase coroutine)
     {
         if (!IsAlive)
         {
             throw new InvalidOperationException("Cannot start child coroutine on dead parent coroutine.");
         }
-        
+
         coroutine.Manager = Manager;
         coroutine.Parent = this;
 
         AddChild(coroutine);
         coroutine.Init();
     }
-    
+
     /// <summary>
     /// Initializes the coroutine once it has been added to the active coroutine hierarchy.
     /// </summary>
     public void Init()
     {
         InheritModesFromParent();
-        
+
         OnEnter();
 
         if (IsAlive)
@@ -82,7 +82,7 @@ public class CoroutineBase
 
     private void InheritModesFromParent()
     {
-        if (this.ProcessMode == CoProcessMode.Inherit) 
+        if (this.ProcessMode == CoProcessMode.Inherit)
         {
             this.ProcessMode = Parent?.ProcessMode ?? CoProcessMode.Normal;
         }
@@ -92,8 +92,8 @@ public class CoroutineBase
             this.RunMode = Parent?.RunMode ?? CoRunMode.Pausable;
         }
     }
-    
-    
+
+
     // Coroutine lifecycle events:
 
     /// <summary>
@@ -105,10 +105,10 @@ public class CoroutineBase
     /// Called when the coroutine is killed.
     /// </summary>
     protected virtual void OnExit() { }
-    
-    
+
+
     // Coroutine execution events:
-    
+
     /// <summary>
     /// Called after OnEnter() if the coroutine is running or as soon as it is unpaused.
     /// </summary>
@@ -135,7 +135,7 @@ public class CoroutineBase
             EnableUpdates();
         }
     }
-    
+
     /// <summary>
     /// Called every frame if the coroutine is playing.
     /// The ProcessMode determines whether it is run in _Process() or _PhysicsProcess().
@@ -258,7 +258,7 @@ public class CoroutineBase
             lastChild = coroutine.previousSibling;
         }
     }
-    
+
     /// <summary>
     /// Called when the game is paused or unpaused.
     /// </summary>
@@ -277,12 +277,12 @@ public class CoroutineBase
         while (child != null)
         {
             child.OnGamePausedChanged(isGamePaused);
-            
+
             child = child.nextSibling;
         }
     }
 
-    
+
     private void UpdateRunState(bool isGamePaused)
     {
         bool shouldBeRunning = RunMode switch {

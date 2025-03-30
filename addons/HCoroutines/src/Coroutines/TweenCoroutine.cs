@@ -12,7 +12,7 @@ public class TweenCoroutine : CoroutineBase
 {
     private readonly Action<Tween> setupTween;
     private Tween tween;
-    
+
     public TweenCoroutine(Action<Tween> setupTween, CoRunMode runMode = CoRunMode.Inherit)
         : base(CoProcessMode.Inherit, runMode)
     {
@@ -23,7 +23,7 @@ public class TweenCoroutine : CoroutineBase
     {
         tween = Manager.CreateTween();
         setupTween(tween);
-        
+
         if (!tween.IsValid() || !tween.IsRunning()) {
             Kill();
             return;

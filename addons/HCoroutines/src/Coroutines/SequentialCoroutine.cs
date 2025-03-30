@@ -8,16 +8,16 @@ public class SequentialCoroutine : CoroutineBase
 {
     private readonly CoroutineBase[] coroutines;
     private int idx = 0;
-    
+
     // If one of the steps completes while the game is paused, the next step is not instantly run.
     // Instead, it is only run once the game is resumed again, which is indicated by this flag.
     private bool isSwitchToNextCoroutinePending = false;
 
     public SequentialCoroutine(params CoroutineBase[] coroutines)
         : this(CoProcessMode.Inherit, CoRunMode.Inherit, coroutines) { }
-    
+
     public SequentialCoroutine(
-        CoProcessMode processMode, 
+        CoProcessMode processMode,
         CoRunMode runMode,
         params CoroutineBase[] coroutines
     )

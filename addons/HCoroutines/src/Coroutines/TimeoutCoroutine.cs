@@ -3,7 +3,7 @@ using HCoroutines.Util;
 namespace HCoroutines;
 
 /// <summary>
-/// Runs a coroutine until completion or until a predefined duration has elapsed. 
+/// Runs a coroutine until completion or until a predefined duration has elapsed.
 /// </summary>
 public class TimeoutCoroutine : CoroutineBase
 {
@@ -12,14 +12,14 @@ public class TimeoutCoroutine : CoroutineBase
     private readonly bool ignoreTimeScale;
 
     private PausableTimer timer;
-    
+
     public TimeoutCoroutine(
         float timeout,
         CoroutineBase coroutine,
         bool ignoreTimeScale = false,
         CoProcessMode processMode = CoProcessMode.Inherit,
         CoRunMode runMode = CoRunMode.Inherit
-    ) 
+    )
         : base(processMode, runMode)
     {
         this.timeout = timeout;
@@ -36,7 +36,7 @@ public class TimeoutCoroutine : CoroutineBase
             timer = new PausableTimer(Manager.GetTree(), timeout, ignoreTimeScale, callback: Kill);
         }
     }
-    
+
     protected override void OnPause()
     {
         timer.Pause();
